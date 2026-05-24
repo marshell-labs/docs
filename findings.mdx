@@ -1,0 +1,61 @@
+---
+title: "Findings"
+description: "What a finding is and how to work with them."
+---
+
+A **finding** is one issue surfaced by one tool. Findings live on two
+pages:
+
+- **Scan page** — split into **Known vulnerabilities** (CVEs) and
+  **Other findings**.
+- **Findings page** — every finding from every scan in your org, in
+  one searchable feed.
+
+## Fields
+
+| Field | Notes |
+|---|---|
+| **Severity** | `critical` / `high` / `medium` / `low` / `info` |
+| **Title** | Short description, e.g. *Reflected XSS in `q` parameter*. |
+| **Tool** | Which scanner found it (`nuclei`, `sqlmap`, `passive`, …). |
+| **Type** | `sqli`, `xss`, `cve`, `misconfig`, `cms-vuln`, `exposure`, `scan-limitation`. |
+| **Target** | Domain and path where it reproduces. |
+| **Evidence** | Raw tool output proving the issue. |
+| **Status** | `open` / `fixed` / `dismissed` / `accepted`. |
+
+`scan-limitation` is not a vulnerability — it flags that the scanner
+saw a challenge page instead of your site. See
+[Firewall bypass](/firewall-bypass).
+
+## Filtering
+
+On the **Findings** page:
+
+- Click the **Critical / High / Medium / Low** chips to filter by
+  severity. Click again to clear.
+- The search box matches title, target, scan ID, and tool name.
+- The list updates in real time as new scans complete.
+
+## Detail panel
+
+Click a row to open the panel:
+
+- **Activity** — history and status changes.
+- **Evidence** — raw request/response or payload from the tool.
+- **Steps** — numbered reproduction steps when the tool provides them.
+- **Notes** — internal comments.
+- Right column: severity, status, CVSS, CVE/CWE, tool, target,
+  description, recommendation.
+
+## Statuses
+
+| Status | Use it when |
+|---|---|
+| `open` | New, being worked on. |
+| `fixed` | Patched in code or config. |
+| `dismissed` | False positive. |
+| `accepted` | Known risk you've chosen not to fix. |
+
+Status is keyed to the finding's signature (tool + type + target +
+title). If the same issue reappears in a later scan, your status
+carries over.

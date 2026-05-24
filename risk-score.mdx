@@ -1,0 +1,54 @@
+---
+title: "Risk score"
+description: "A single 1..99 number, with five components and a confidence flag."
+---
+
+Every completed scan gets a **risk score** from 1 to 99 — never 0,
+never 100. A perfectly clean target asymptotes to 99; an unreachable
+one floors at 1 so the gauge always renders.
+
+## Bands
+
+| Band | Range |
+|---|---|
+| `excellent` | 90–99 |
+| `good` | 75–89 |
+| `fair` | 50–74 |
+| `poor` | 25–49 |
+| `critical` | 1–24 |
+
+## Components
+
+The total is a weighted sum. Each component has its own 0..100 score
+and a list of hits — click a row in **Score breakdown** to expand.
+
+| Component | Weight | Measures |
+|---|---|---|
+| **Vulnerabilities** | **40%** | All vuln-scanner findings + CVE matches, weighted by severity. |
+| **TLS** | 15% | Certificate validity, cipher strength, protocol version, days to expiry. |
+| **Headers** | 15% | CSP, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy. |
+| **Exposure** | 15% | `.git/`, `.env`, `phpinfo`, accessible backups, secrets in response bodies. |
+| **Posture** | 15% | WAF, bot manager, DDoS mitigation, CDN. |
+
+One `critical` finding can drop the total by 20+. Perfect headers and
+TLS will not rescue a target with active SQL injection.
+
+## Confidence
+
+Shown next to the gauge:
+
+| Confidence | When |
+|---|---|
+| `high` | ≥80% of tools completed cleanly. |
+| `medium` | 50–79%. |
+| `low` | <50%. Score is unreliable; deltas are not rendered. |
+
+`low` confidence usually means the target's WAF is blocking the
+scanner. See [Firewall bypass](/firewall-bypass).
+
+## Deltas
+
+If the same domain has a prior scan with at least `medium`
+confidence, **Score breakdown** shows arrows per component (`↑ +7`,
+`↓ −12`). Hover for the reason — e.g. "certificate expires in 14
+days, was 21" or "CSP added."

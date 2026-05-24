@@ -1,0 +1,50 @@
+---
+title: "API keys"
+description: "Programmatic access without opening the dashboard."
+---
+
+API keys live on **Settings → API & Webhooks**.
+
+## The first key
+
+Issued automatically on signup. Shown **once**, in an amber banner at
+the top of the dashboard:
+
+> Copy your key now — it won't be shown again.
+
+chifu stores only a bcrypt hash; lost keys cannot be recovered. The
+banner expires after 5 minutes.
+
+## Issue another
+
+1. **Settings → API & Webhooks**.
+2. Optional **Name** (e.g. `CI / production`).
+3. Click **New key**.
+
+The plaintext appears in the banner — copy it. The table row shows
+only the key prefix (`chf_k_…`) after that.
+
+## Rotate / revoke
+
+- **Copy** — copies the prefix (you can identify the key, but can't
+  use it; only the one-time banner contains the full value).
+- **Revoke** — invalidates the key immediately. Confirmation
+  required; cannot be undone.
+
+If a key leaks, revoke it and issue a new one.
+
+## What a key can do
+
+A key acts on behalf of your organization with your permissions.
+
+- Scans run through a key consume the same monthly quota.
+- A key can only scan domains your org has verified.
+- A key cannot manage billing or team membership.
+
+## Handling
+
+- Store in your CI provider's secret store (GitHub Secrets, GitLab
+  CI Variables, Vercel Environment Variables).
+- Never commit keys to git, post them in Slack, or send them by
+  email.
+- One key per system — easier to rotate if something leaks.

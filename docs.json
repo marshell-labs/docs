@@ -3,81 +3,50 @@
   "theme": "mint",
   "name": "chifu",
   "colors": {
-    "primary": "#7C3AED",
-    "light": "#A78BFA",
-    "dark": "#5B21B6"
+    "primary": "#0B0A08",
+    "light": "#F5F1E8",
+    "dark": "#1C1B17"
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Знакомство",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
-          },
-          {
-            "group": "Что делает сканер",
-            "pages": [
-              "concepts/pipeline",
-              "concepts/tools",
-              "concepts/risk-score",
-              "concepts/findings"
-            ]
-          },
-          {
-            "group": "Дашборд",
-            "pages": [
-              "dashboard/scans",
-              "dashboard/findings",
-              "dashboard/domains",
-              "dashboard/firewall-bypass",
-              "dashboard/schedule",
-              "dashboard/api-keys",
-              "dashboard/plans"
-            ]
-          }
+        "group": "Get started",
+        "pages": [
+          "introduction",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "How scans work",
+        "pages": [
+          "scans",
+          "risk-score",
+          "findings"
+        ]
+      },
+      {
+        "group": "Dashboard",
+        "pages": [
+          "domains",
+          "firewall-bypass",
+          "schedule",
+          "api-keys",
+          "plans"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Войти",
-          "href": "https://chifu.io/login",
-          "icon": "arrow-right-to-bracket"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Dashboard",
-        "href": "https://chifu.io/dashboard"
-      }
-    ],
     "primary": {
       "type": "button",
-      "label": "Регистрация",
-      "href": "https://chifu.io/register"
+      "label": "Open dashboard",
+      "href": "https://marshell.dev/dashboard"
     }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude"
-    ]
   },
   "footer": {
     "socials": {}

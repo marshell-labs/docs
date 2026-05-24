@@ -1,85 +1,52 @@
 ---
 title: "Quickstart"
-description: "От регистрации до первого скана — пять минут."
+description: "First scan in under five minutes."
 ---
 
 <Steps>
-  <Step title="Зарегистрируйтесь">
-    Создайте аккаунт на [chifu.io](https://chifu.io/register). Сразу
-    после регистрации:
-    - заведётся организация на плане **Free** (3 скана в месяц);
-    - выдастся первый API-ключ — он покажется один раз амбер-баннером
-      на **Settings → API & Webhooks**. Скопируйте сразу: больше chifu
-      его не покажет.
+  <Step title="Sign up">
+    Create an account at [marshell.dev/register](https://marshell.dev/register).
+
+    You're placed on the **Free** plan (3 scans / month) and a one-time
+    API key is shown as an amber banner on **Settings → API &
+    Webhooks**. Copy it now — chifu won't show it again.
   </Step>
 
-  <Step title="Добавьте домен">
-    Перейдите в **Dashboard → Domains** и нажмите **Add domain**.
-    Введите хост (`example.com` или `app.example.com`).
+  <Step title="Add a domain">
+    Go to **Domains → Add domain** and enter a hostname
+    (`example.com`). Status will be **Pending** until you verify
+    ownership.
+  </Step>
 
-    Сразу после добавления домен в статусе **Pending** — сканировать
-    его нельзя. Раскройте карточку домена и подтвердите владение
-    одним из двух способов:
+  <Step title="Verify ownership">
+    Expand the domain card and pick one method:
 
     <Tabs>
       <Tab title="DNS TXT">
-        Добавьте у регистратора TXT-запись:
-        - **Host:** `_chifu.{ваш-домен}`
-        - **Value:** `chifu-verify=…` (значение из дашборда)
-
-        Нажмите **Verify**. DNS-пропагация может занять несколько минут.
+        Add a TXT record at `_chifu.{your-domain}` with the value
+        chifu shows. Click **Verify** after DNS propagates.
       </Tab>
       <Tab title="File">
-        Положите файл `chifu-token.txt` с содержимым токена в корень
-        сайта так, чтобы он был доступен по `https://{ваш-домен}/chifu-token.txt`.
-
-        Нажмите **Verify**.
+        Serve `chifu-token.txt` (containing only the token) at
+        `https://{your-domain}/chifu-token.txt`. On Next.js / Vercel,
+        place it in `/public`. Click **Verify**.
       </Tab>
     </Tabs>
-
-    После успеха карточка станет **Verified** (зелёный бейдж).
   </Step>
 
-  <Step title="Запустите первый скан">
-    На **Dashboard → Scans** в карточке **Run scan now**:
-    - выберите верифицированный домен в dropdown'е;
-    - нажмите **Scan**.
-
-    chifu поставит скан в очередь, и страница **Scan history** ниже
-    обновится автоматически — статус пройдёт через **Queued →
-    Running → Completed** в реальном времени. Средняя длительность —
-    8 минут.
+  <Step title="Run a scan">
+    On **Scans → Run scan now**, pick the verified domain and click
+    **Scan**. The pipeline takes about 8 minutes. Status in **Scan
+    history** updates live: `Queued → Running → Completed`.
   </Step>
 
-  <Step title="Прочитайте результат">
-    Нажмите на строку скана — откроется детальная страница:
+  <Step title="Read the result">
+    Click the scan row. You'll see:
 
-    - **Risk gauge** слева — итоговый score 1..99 с цветом по band
-      (critical / poor / fair / good / excellent).
-    - **Score breakdown** справа — раскладка по 5 компонентам. Клик
-      по строке раскрывает список причин («что именно ударило»).
-    - **Tech stack** — обнаруженные технологии с версиями.
-    - **Known vulnerabilities** — CVE с CVSS, если найдены.
-    - **Other findings** — таблица с severity, title, инструментом и URL.
+    - **Risk gauge** — score 1..99 with a color band.
+    - **Score breakdown** — the five components and what hurt them.
+    - **Tech stack**, **Known vulnerabilities**, **Other findings**.
 
-    Подробнее: [Risk score](/concepts/risk-score),
-    [Findings](/concepts/findings).
-  </Step>
-
-  <Step title="Дальше — на ваш выбор">
-    <CardGroup cols={2}>
-      <Card title="Запланировать регулярные сканы" icon="calendar-clock" href="/dashboard/schedule">
-        Daily/weekly/monthly на календаре.
-      </Card>
-      <Card title="Обойти Bot Protection" icon="shield-halved" href="/dashboard/firewall-bypass">
-        Если цель за Vercel/Cloudflare WAF и сканер видит challenge-страницы.
-      </Card>
-      <Card title="Добавить поддомены" icon="network-wired" href="/dashboard/domains">
-        Под уже верифицированным root-доменом — без повторной верификации.
-      </Card>
-      <Card title="Перейти на Pro" icon="arrow-up-right-from-square" href="/dashboard/plans">
-        Если 3 скана в месяц мало.
-      </Card>
-    </CardGroup>
+    Details: [Risk score](/risk-score), [Findings](/findings).
   </Step>
 </Steps>

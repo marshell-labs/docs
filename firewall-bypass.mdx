@@ -1,0 +1,79 @@
+---
+title: "Firewall bypass"
+description: "Let chifu through your Vercel / Cloudflare bot protection."
+---
+
+When your site is fronted by Vercel BotID, Cloudflare Bot Fight,
+Akamai, or DataDome, chifu often gets served a challenge page
+instead of your site. The scan ends with a low score and `low`
+confidence.
+
+**Firewall bypass** fixes this. chifu signs each request with a
+secret header; you add a one-time rule on your CDN that whitelists
+that header.
+
+<Warning>
+  Only available on verified domains.
+</Warning>
+
+## Enable
+
+1. **Domains** → expand a verified domain.
+2. Find **Firewall bypass** → click **Enable firewall bypass**.
+
+chifu generates a secret (`chf_b_…`). The header name is
+`x-chifu-bypass`. From this point, the scanner sends both with every
+request to this domain and its subdomains.
+
+## Add the CDN rule
+
+You write this rule once. The dashboard shows the exact recipe under
+each tab.
+
+<Tabs>
+  <Tab title="Vercel">
+    **Project → Settings → Firewall → Custom Rules → Create Rule**
+
+    - **IF**: Request Header `x-chifu-bypass` **Equals** `<your secret>`
+    - **THEN**: `Bypass`
+
+    The `Bypass` action skips Bot Protection, the OWASP rule set, and
+    Attack Mode in one step.
+  </Tab>
+  <Tab title="Cloudflare">
+    **Security → WAF → Custom rules → Create rule**
+
+    - **Expression**: `(http.request.headers["x-chifu-bypass"][0] eq "<your secret>")`
+    - **Action**: `Skip` → all managed rules (plus Bot Fight Mode if
+      enabled).
+  </Tab>
+  <Tab title="Custom">
+    On any other WAF: create an `allow` / `skip` rule for requests
+    with header `x-chifu-bypass` equal to your secret, placed
+    **before** your bot management rules.
+  </Tab>
+</Tabs>
+
+## Manage the secret
+
+- **Copy** — copies the value.
+- **Rotate secret** — issues a new one. Update the CDN rule too,
+  otherwise the next scan will hit the challenge again.
+- **Remove** — disables bypass. chifu stops sending the header; you
+  can delete the CDN rule.
+
+## Scope
+
+The secret applies to the root domain and all its subdomains. If a
+subdomain sits behind a **different** CDN, expand that subdomain's
+card and configure bypass independently there.
+
+## When you need it
+
+Signs that bypass would help:
+
+- A finding `Anti-bot challenge intercepted` (tool: `passive`).
+- Risk score `1` with `low` confidence and an empty **Tech stack**.
+- Most tools in the scan returning 403 / 429.
+
+Enable bypass, rerun the scan.

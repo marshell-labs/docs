@@ -1,0 +1,54 @@
+---
+title: "Schedule"
+description: "Recurring scans on a weekly calendar."
+---
+
+<Warning>
+  Scheduling is a **Pro** feature. On Free, the page is read-only with
+  an upgrade overlay. See [Plans](/plans).
+</Warning>
+
+The **Schedule** page is a 7-day × 24-hour grid. You drop blocks
+onto cells; each block is a recurring scan.
+
+## Add a block
+
+Hover an empty cell to reveal a `+`. Click it — a block appears with
+your first verified domain, set to **weekly** (same weekday, same
+hour, every week).
+
+## Configure a block
+
+Click the block to open a popover:
+
+- **Domain** — pick from your verified domains.
+- **Run now** — triggers a scan immediately, doesn't change the
+  schedule.
+- **Pause / Resume** — temporarily disables the block without
+  deleting it.
+- **Remove** — deletes the schedule.
+
+Drag the block to a different cell to change day/hour.
+
+## Frequency
+
+You can also set explicit frequency from **Scans → Schedule scan**:
+
+| Frequency | Fires |
+|---|---|
+| Once | Once at a date + time |
+| Daily | Every day at the chosen hour |
+| Weekly | A chosen weekday + hour |
+| Monthly | A chosen day of month + hour |
+
+## Quotas
+
+| Plan | Scans / month | Scans / day |
+|---|---|---|
+| Free | 3 | — (scheduling locked) |
+| Pro | 30 | 1 |
+| Max | 120 | 4 |
+
+When the monthly quota runs out, scheduled scans are skipped
+(`quota exhausted`) until the next month. Blocks stay on the
+calendar; they start firing again on the 1st.

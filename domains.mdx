@@ -1,0 +1,61 @@
+---
+title: "Domains"
+description: "Add a domain, prove you own it, scan it."
+---
+
+You can only scan domains you've **verified**. Without verification,
+chifu would be a public DDoS tool.
+
+## Add a domain
+
+**Domains → Add domain**, enter a hostname (`example.com`, no scheme
+or slashes), and click **Add**. The domain shows up as **Pending**.
+
+## Verify ownership
+
+Expand the card and pick a method.
+
+<Tabs>
+  <Tab title="DNS TXT">
+    Add a TXT record:
+
+    | Field | Value |
+    |---|---|
+    | Host | `_chifu.{your-domain}` |
+    | Type | `TXT` |
+    | Value | `chifu-verify=…` (copy from the dashboard) |
+
+    Click **Verify** after DNS propagates (usually under a minute).
+  </Tab>
+  <Tab title="File">
+    Serve `chifu-token.txt` with only the token inside, at
+    `https://{your-domain}/chifu-token.txt`. On Next.js / Vercel,
+    put it in `/public`. No trailing newline, no BOM.
+
+    Click **Verify**.
+  </Tab>
+</Tabs>
+
+If verification fails:
+
+- **DNS**: check `dig TXT _chifu.example.com`. Some registrars append
+  the zone twice — fix the host if so.
+- **File**: confirm the URL works in an incognito tab and returns
+  plain text.
+
+## Rotate the token
+
+**Regenerate token** invalidates the current verification record. Use
+it if the old token leaked or was committed to a public repo.
+
+## Subdomains
+
+A verified root unlocks **Add subdomain**. Subdomains **inherit
+verification** — you don't have to verify each one. They show
+indented under the root card.
+
+## Delete
+
+The trash icon on a domain card removes the domain and **all its
+scans, findings, and schedules**. There's a confirmation; the action
+is irreversible.

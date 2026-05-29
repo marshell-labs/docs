@@ -55,4 +55,4 @@
 - Document only shipped, working features. Mark "coming soon" things clearly
   (Pro/Max plans, Team page, Telegram alerts) rather than describing them as live.
 - Don't document backend internals, the Go API source, or DB schema, only the
-  user-facing REST surface (`POST /api/v1/scan`, `GET /api/v1/scans/{id}`).
+  user-facing REST surface (`POST /api/v1/scan`, `GET /api/v1/scan/{id}`).

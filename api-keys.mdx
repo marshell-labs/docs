@@ -55,7 +55,7 @@ curl https://api.marshell.dev/api/v1/scan \
 The response includes a scan ID you can use to fetch the result:
 
 ```bash
-curl https://api.marshell.dev/api/v1/scans/SCAN_ID \
+curl https://api.marshell.dev/api/v1/scan/SCAN_ID \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -69,7 +69,7 @@ curl https://api.marshell.dev/api/v1/scans/SCAN_ID \
 | Method | Path | Purpose |
 | --- | --- | --- |
 | `POST` | `/api/v1/scan` | Enqueue a scan for a target. Returns a scan ID. |
-| `GET` | `/api/v1/scans/{id}` | Fetch a scan's full result. |
+| `GET` | `/api/v1/scan/{id}` | Fetch a scan's full result. |
 
 ## Keeping it safe
 

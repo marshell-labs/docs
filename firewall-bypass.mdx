@@ -4,8 +4,8 @@ description: "If your CDN's bot protection blocks the scanner, let chifu through
 ---
 
 Hosts like **Vercel** and **Cloudflare** ship bot protection that challenges automated
-traffic. That's great against attackers — but it can also block chifu's scanner, leaving
-you with a thin or empty report.
+traffic. That's great against attackers, but it can also block chifu's scanner,
+leaving you with a thin or empty report.
 
 The fix: chifu sends a **secret header** on every scan, and you add one firewall rule
 that says "if you see this header, let it through." Attackers don't know the secret;
@@ -71,8 +71,9 @@ chifu does.
 The panel shows the bypass status as **Active** or **Off**, and lets you:
 
 - **Reveal / hide** the secret value.
-- **Rotate** it — generates a new secret. Remember to update your CDN rule afterward.
-- **Remove** it — turns bypass off and clears the header.
+- **Rotate** it: generates a new secret. Remember to update your CDN rule
+  afterward.
+- **Remove** it: turns bypass off and clears the header.
 
 <Tip>
   Rotate the secret periodically, and any time you suspect it leaked. After rotating,

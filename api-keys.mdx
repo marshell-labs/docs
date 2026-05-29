@@ -3,29 +3,43 @@ title: "API keys"
 description: "Your one-time key, and how to drive scans programmatically."
 ---
 
-Most people never touch the API — the dashboard does everything. But if you want to
-trigger scans from CI, a script, or your own tooling, chifu speaks a small REST API
-authenticated with an API key.
+Most people never touch the API directly: the dashboard and the
+[MCP server](/ai-editor) do everything. But if you want to trigger scans from CI,
+a script, or your own tooling, chifu speaks a small REST API authenticated with
+an API key.
 
-## Your one-time key
+## Where keys come from
 
-Right after you sign up, chifu shows your API key **once**, as a banner on the
-dashboard. This is the only time the full key is displayed.
+chifu shows you **one API key at signup**, as a banner on the dashboard. This is
+the only time that key's full value is displayed.
 
 <Warning>
   Copy it immediately and store it somewhere safe (a password manager or your CI
-  secrets). chifu only keeps a hash — if you lose it, you can't recover it, you'd need a
-  new one.
+  secrets). chifu only keeps a hash, so if you lose it you can't recover it,
+  you'd create a new one.
 </Warning>
 
 If you only use the dashboard, you can ignore the key entirely.
 
-## Create more keys
+## Create and manage keys
 
-Need another key — for the [MCP server](/ai-editor), CI, or a second machine? Open
-**Settings → API keys**, click **Create key**, give it a name, and copy it. Like
-the signup key, the full value is shown **once**. Revoke any key from the same
-screen when you're done with it.
+You create, list, and revoke keys on the **MCP** page in the dashboard:
+
+<Steps>
+  <Step title="Open the MCP page">
+    It's in the Workspace section of the sidebar.
+  </Step>
+  <Step title="Create a key">
+    Click **Create key**, give it a name, and copy the value. Like the signup
+    key, the full value is shown **once**.
+  </Step>
+  <Step title="Revoke when done">
+    Revoke any key from the same list when you no longer need it.
+  </Step>
+</Steps>
+
+These are the same keys the [MCP server](/ai-editor) uses, so this is also where
+you grab a key for Cursor or Claude.
 
 ## Authenticating
 
@@ -38,31 +52,28 @@ curl https://api.marshell.dev/api/v1/scan \
   -d '{"target":"https://myapp.com"}'
 ```
 
-The response includes a `scanId` you can use to fetch the result:
+The response includes a scan ID you can use to fetch the result:
 
 ```bash
-curl https://api.marshell.dev/api/v1/scan/SCAN_ID \
+curl https://api.marshell.dev/api/v1/scans/SCAN_ID \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 <Note>
-  You can only scan domains you've [verified](/domains), and API scans count against
-  your monthly [quota](/plans) just like dashboard scans.
+  You can only scan domains you've [verified](/domains), and API scans count
+  against your monthly [quota](/plans) just like dashboard scans.
 </Note>
 
 ## Endpoints
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| `POST` | `/api/v1/scan` | Enqueue a scan for a target. Returns `{ scanId }`. |
-| `GET` | `/api/v1/scan/{scanId}` | Fetch a scan's full result. |
+| `POST` | `/api/v1/scan` | Enqueue a scan for a target. Returns a scan ID. |
+| `GET` | `/api/v1/scans/{id}` | Fetch a scan's full result. |
 
 ## Keeping it safe
 
 - Never commit the key to a repo or paste it in screenshots.
-- Store it in your platform's secrets (Vercel/GitHub Actions environment variables).
-- Treat it like a password — anyone with it can run scans as you.
-
-<Note>
-  Programmatic API access is part of the **Pro** plan. See [Plans](/plans).
-</Note>
+- Store it in your platform's secrets (Vercel or GitHub Actions environment
+  variables).
+- Treat it like a password: anyone with it can run scans as you.

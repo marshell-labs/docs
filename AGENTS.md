@@ -14,13 +14,18 @@
 
 ## About the product
 
-- **chifu** is a vulnerability scanner for live websites — aimed at "vibe-coders"
-  who ship AI-generated static Next.js sites (Lovable, v0, Bolt, Cursor) to Vercel.
-- It is the scanning product in the **Marshell** family. Company = Marshell,
+- **chifu** is continuous security monitoring for live websites, aimed at
+  "vibe-coders" who ship AI-built static Next.js sites (Lovable, v0, Bolt, Cursor)
+  to Vercel. Lead with monitoring + alerts, not "run a manual scan".
+- It is the monitoring product in the **Marshell** family. Company = Marshell,
   product = chifu, domain = `marshell.dev`, dashboard = `marshell.dev/dashboard`.
-- Docs mirror what the dashboard actually does today. Pages map to dashboard
-  surfaces: scans, risk score, findings, domains, firewall bypass, schedule, plans,
-  API keys.
+- Docs mirror what the dashboard actually does today. Dashboard surfaces:
+  Overview, Scans, Findings, Schedule, Alerts, MCP (Workspace); Domains, Team
+  (Resources); Settings, Docs (footer).
+- Alerts (Discord webhook) live on their own dashboard Alerts page. API keys are
+  created/managed on the dashboard MCP page (and one is shown once at signup).
+  Note: the MCP onboarding doc keeps the `/ai-editor` slug because Mintlify
+  reserves `/mcp`.
 
 ## Terminology
 
@@ -40,13 +45,14 @@
 - Use sentence case for headings
 - Bold for UI elements: Click **Settings**
 - Code formatting for file names, commands, paths, and code references
-- Friendly and reassuring — readers are not security experts. No unexplained jargon.
+- Friendly and reassuring: readers are not security experts. No unexplained jargon.
 - Prefer `<Steps>`, `<Tabs>`, `<CardGroup>`, and callouts (`<Note>`/`<Tip>`/
   `<Warning>`) over walls of text.
+- **No em-dashes anywhere.** Use periods, commas, colons, or parentheses instead.
 
 ## Content boundaries
 
 - Document only shipped, working features. Mark "coming soon" things clearly
-  (Pro/Max plans, Team page) rather than describing them as live.
-- Don't document backend internals, the Go API source, or DB schema — only the
-  user-facing REST surface (`POST /api/v1/scan`, `GET /api/v1/scan/{id}`).
+  (Pro/Max plans, Team page, Telegram alerts) rather than describing them as live.
+- Don't document backend internals, the Go API source, or DB schema, only the
+  user-facing REST surface (`POST /api/v1/scan`, `GET /api/v1/scans/{id}`).

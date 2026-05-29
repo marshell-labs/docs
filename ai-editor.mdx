@@ -1,43 +1,67 @@
 ---
 title: "chifu in your AI editor (MCP)"
-description: "Scan and fix vulnerabilities without leaving Cursor or Claude — no copy-pasting reports."
+description: "Pull findings into Cursor or Claude and fix them in your code, with no copy-pasting reports."
 ---
 
 You vibe-coded your site with an AI editor. Now let it secure the site too.
 
 chifu ships an **MCP server** that plugs straight into Claude, Cursor, and other
 AI tools. Your agent scans your site, reads the findings, **fixes them in your
-code**, and re-scans to confirm — all in one conversation. No dashboard
-tab-switching, no pasting reports.
+code**, and re-scans to confirm, all in one conversation. No dashboard
+tab-switching, no pasting reports around.
 
 <Note>
-  This is for the technical, in-editor workflow. Prefer clicking buttons? The
+  This is the technical, in-editor workflow. Prefer clicking buttons? The
   [dashboard](https://marshell.dev/dashboard) does everything too.
 </Note>
 
-## What you get
+## What is MCP?
 
-Two tools your agent can call:
+MCP (Model Context Protocol) is a standard way for AI editors to talk to outside
+tools. When you add chifu's MCP server to your editor, your AI assistant gains a
+set of chifu actions it can call on its own: it can kick off a scan, read the
+results, and list your domains, then act on them right inside your codebase.
+
+The chifu MCP server is published on npm as `chifu-mcp`. Your editor runs it for
+you with `npx`, so there's nothing to install by hand.
+
+## The four tools
+
+Once connected, your agent can call these:
 
 <CardGroup cols={2}>
   <Card title="scan_site" icon="magnifying-glass">
-    Scans a verified domain and returns the risk score plus every finding —
+    Scans a verified domain and returns the risk score plus every finding, with
     enough detail for the agent to fix each one.
   </Card>
   <Card title="get_scan" icon="clock-rotate-left">
     Pulls a previous scan's full result by ID.
+  </Card>
+  <Card title="list_domains" icon="globe">
+    Lists your verified domains so the agent knows what it can scan.
+  </Card>
+  <Card title="list_scans" icon="list">
+    Lists your recent scans with their status and scores.
   </Card>
 </CardGroup>
 
 ## Setup
 
 <Steps>
-  <Step title="Get your API key">
-    chifu shows it once at signup. Copy it — see [API keys](/api-keys).
+  <Step title="Create an API key">
+    Open the **MCP** page in the dashboard and click **Create key**. Give it a
+    name and copy the value: it's shown **once**. See [API keys](/api-keys) for
+    details.
+
+    <Tip>
+      chifu also shows you one API key at signup. Either key works for the MCP
+      server.
+    </Tip>
   </Step>
   <Step title="Add chifu to your MCP client">
     Drop this into your client's MCP config (`.mcp.json` for Claude Code,
-    `.cursor/mcp.json` for Cursor, or `claude_desktop_config.json`):
+    `.cursor/mcp.json` for Cursor, or `claude_desktop_config.json` for Claude
+    Desktop). The dashboard MCP page shows the same snippet ready to copy.
 
     ```json
     {
@@ -61,20 +85,29 @@ Two tools your agent can call:
   </Step>
 </Steps>
 
-## The fix-it loop
+## The scan, fix, re-scan loop
 
-This is the whole point — chifu hands the agent **structured findings** (what's
-wrong, where, the evidence, the CVE), and your agent does the fixing:
+This is the whole point. chifu hands the agent **structured findings** (what's
+wrong, where, the evidence, the CVE), and your agent does the work:
 
-1. **Scan** — `scan_site` returns the risk score and findings, sorted by severity.
-2. **Fix** — the agent edits your code: adds missing security headers, bumps a
-   vulnerable dependency, removes exposed data.
-3. **Verify** — re-run `scan_site` once you've redeployed; confirm the findings
-   are gone and the score climbed.
+<Steps>
+  <Step title="Scan">
+    The agent calls `scan_site` and gets back the risk score and findings, sorted
+    by severity.
+  </Step>
+  <Step title="Fix">
+    It edits your code: adds missing security headers, bumps a vulnerable
+    dependency, removes exposed data.
+  </Step>
+  <Step title="Re-scan">
+    After you redeploy, the agent calls `scan_site` again and confirms the
+    findings are gone and the score climbed.
+  </Step>
+</Steps>
 
 <Tip>
-  Scans hit your **live** site, so deploy your fixes before re-scanning. And
-  each scan counts against your monthly [quota](/plans) — batch your fixes, then
+  Scans hit your **live** site, so deploy your fixes before re-scanning. And each
+  scan counts against your monthly [quota](/plans), so batch your fixes, then
   verify once.
 </Tip>
 

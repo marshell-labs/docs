@@ -3,8 +3,8 @@ title: "Domains"
 description: "Add a site, prove you own it, then scan it."
 ---
 
-Before chifu scans a site, you verify that you own it. This keeps everyone honest — you
-can only scan domains you control. Manage them on the **Domains** page.
+Before chifu scans a site, you verify that you own it. This keeps everyone honest:
+you can only scan domains you control. Manage them on the **Domains** page.
 
 ## Add a domain
 
@@ -12,7 +12,7 @@ Click **Add domain** and enter your hostname, like `myapp.com` or `myapp.vercel.
 It appears with a **Pending** badge until you verify it.
 
 <Note>
-  Enter a bare hostname — no `https://`, no trailing path. `acme.com`, not
+  Enter a bare hostname, no `https://`, no trailing path. `acme.com`, not
   `https://acme.com/`.
 </Note>
 
@@ -27,8 +27,8 @@ Expand the domain card and choose a method. You only need **one**.
         chifu shows a token and the target URL: `https://yourdomain.com/chifu-token.txt`.
       </Step>
       <Step title="Create the file">
-        Add `public/chifu-token.txt` to your project containing **only** the token — one
-        line, nothing else.
+        Add `public/chifu-token.txt` to your project containing **only** the
+        token, one line, nothing else.
       </Step>
       <Step title="Redeploy">
         Push and let Vercel (or your host) deploy. Confirm the file loads at the URL
@@ -57,7 +57,7 @@ Expand the domain card and choose a method. You only need **one**.
 
 <Tip>
   Need to start over? **Regenerate token** issues a fresh token and invalidates the old
-  one — useful if a token leaked or you're switching methods.
+  one. Useful if a token leaked or you're switching methods.
 </Tip>
 
 ## Subdomains
@@ -75,7 +75,7 @@ A green **Verified** badge means you can now:
     The domain appears in the **Run scan now** dropdown.
   </Card>
   <Card title="Schedule scans" icon="calendar" href="/schedule">
-    Add it to your recurring schedule (Pro and Max).
+    chifu adds it to your automatic scan schedule.
   </Card>
   <Card title="Bypass your firewall" icon="shield" href="/firewall-bypass">
     Generate a secret header so bot protection doesn't block the scanner.

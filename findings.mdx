@@ -3,32 +3,38 @@ title: "Findings & fixes"
 description: "Every issue chifu surfaces, how serious it is, and how to work through them."
 ---
 
-A **finding** is one specific issue chifu spotted — a missing header, an exposed
-banner, a dependency with a known CVE. Each scan produces findings; the **Findings**
-page aggregates them across all your scans so you have one to-do list.
+A **finding** is one specific issue chifu spotted: a missing header, an exposed
+banner, a dependency with a known CVE. Each scan produces findings, and the
+**Findings** page aggregates them across all your scans so you have one to-do
+list.
 
 ## The Findings page
 
 Open **Findings** in the sidebar to see everything chifu has flagged for your
-domains. The table shows, per row:
+domains. Each row shows:
 
-- **Severity** — how urgent it is (see below).
-- **Finding** — the title, plus its ID, any CVE, and CVSS score.
-- **Target** — which domain it's on.
-- **Tool** — which check produced it.
-- **Status** — where it stands (Open by default).
-- **Age** — how long ago it was discovered.
+- **Severity** how urgent it is (see below).
+- **Finding** the title, plus its ID, any CVE, and CVSS score.
+- **Target** which domain it's on.
+- **Status** where it stands (Open by default).
+- **Age** how long ago it was discovered.
+
+<Note>
+  Rows aren't clickable: there's no separate page per finding. Everything you
+  need is on the row itself, and the full context lives on the
+  [scan report](/scans) the finding came from. The table updates **live**, so a
+  scan that finishes while you're looking adds its findings without a refresh.
+</Note>
 
 ### Filtering
 
-Use the **search box** to filter by title, target, ID, or tool. Toggle the
-**Critical / High / Medium / Low** chips to focus on a severity. The count on the right
-updates as you filter.
+Use the **search box** to filter by title, target, or ID. Toggle the
+**Critical / High / Medium / Low** chips to focus on a severity.
 
 ## Severities
 
-Fix from the top down. Severity reflects both how exploitable an issue is and how much
-damage it could do.
+Fix from the top down. Severity reflects both how exploitable an issue is and how
+much damage it could do.
 
 <CardGroup cols={2}>
   <Card title="Critical" icon="circle-exclamation" color="#DC2626">
@@ -45,9 +51,6 @@ damage it could do.
   </Card>
 </CardGroup>
 
-Some passive checks also produce **Info** findings — observations with no direct risk
-(like a missing `security.txt`).
-
 ## Statuses
 
 Each finding carries a status so you can track your progress:
@@ -61,10 +64,11 @@ Each finding carries a status so you can track your progress:
 
 ## Known vulnerabilities (CVEs)
 
-When chifu matches your detected stack to a published CVE, it shows up in the **Known
-vulnerabilities** table on the scan report, with the CVE ID, severity, affected version
-range, and a link to the official NVD entry. These are usually the highest-impact items
-and the fastest wins — bumping a dependency version often clears several at once.
+When chifu matches your detected stack to a published CVE, it shows up in the
+**Known vulnerabilities** table on the scan report, with the CVE ID, severity,
+affected version range, and a link to the official NVD entry. These are usually
+the highest-impact items and the fastest wins: bumping a dependency version often
+clears several at once.
 
 ## Working through findings
 
@@ -73,19 +77,14 @@ and the fastest wins — bumping a dependency version often clears several at on
     Start with Critical and High. The dashboard already ranks them first.
   </Step>
   <Step title="Read the plain-English explanation">
-    Each finding explains what's wrong and why it matters — no jargon required.
+    Each finding explains what's wrong and why it matters, no jargon required.
   </Step>
   <Step title="Apply the fix">
-    Paste the suggested fix into your editor or your AI assistant (Cursor, v0, Lovable)
-    and ship it.
+    Apply the suggested fix yourself, or let your AI editor do it through the
+    [chifu MCP](/ai-editor): it pulls the findings and edits your code directly.
   </Step>
   <Step title="Re-scan to confirm">
-    Run the scan again. Fixed items drop your risk and show up as a green delta on the
-    [risk score](/risk-score).
+    Run the scan again after you redeploy. Fixed items raise your
+    [risk score](/risk-score) and show up as a green delta.
   </Step>
 </Steps>
-
-<Note>
-  Findings update **live** — if a scan finishes while you're on the page, new findings
-  appear without a refresh.
-</Note>

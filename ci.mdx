@@ -1,0 +1,75 @@
+---
+title: "Continuous integration"
+description: "Fail a build when vulnerable dependencies make it past your agent."
+---
+
+The same `chifu check` that runs in your editor runs in CI. The agent skill is
+your first line of defense. A CI check is the backstop that catches anything
+that slips through, including dependencies a human added by hand.
+
+## Gate a build
+
+Add `--fail-on-findings` so the command exits non-zero when vulnerabilities are
+present:
+
+```bash
+chifu check --fail-on-findings
+```
+
+| Exit code | Meaning |
+|---|---|
+| `0` | No vulnerabilities. |
+| `1` | Vulnerabilities found (with `--fail-on-findings`). |
+| `2` | An error occurred. |
+
+<Note>
+  Without `--fail-on-findings`, `chifu check` reports vulnerabilities but still
+  exits `0`. In CI you almost always want the flag.
+</Note>
+
+## GitHub Actions
+
+```yaml
+name: chifu
+on: [push, pull_request]
+
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check dependencies
+        run: npx @marshell/chifu@latest check --fail-on-findings
+```
+
+chifu reads `package.json` and your committed lockfile, so you do not need to
+run an install first. That keeps the job fast and avoids executing package
+lifecycle scripts in CI.
+
+## Other CI systems
+
+The command is the same everywhere. For example, GitLab CI:
+
+```yaml
+chifu:
+  image: node:20
+  script:
+    - npx @marshell/chifu@latest check --fail-on-findings
+```
+
+## Machine-readable output
+
+Add `--json` to capture results as an artifact or feed them to another tool:
+
+```bash
+chifu check --json > chifu-report.json
+```
+
+See the [CLI reference](/cli) for the full JSON shape.
+
+<Card title="Sync to your dashboard" icon="chart-line" href="/dashboard">
+  Sign in to keep a history of checks across your projects.
+</Card>

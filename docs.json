@@ -3,11 +3,29 @@
   "theme": "mint",
   "name": "chifu",
   "colors": {
-    "primary": "#2DD4BF",
-    "light": "#2DD4BF",
-    "dark": "#1C1B17"
+    "primary": "#02E2BC",
+    "light": "#02E2BC",
+    "dark": "#02E2BC"
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": true
+  },
+  "background": {
+    "color": {
+      "light": "#FFFFFF",
+      "dark": "#0A0E11"
+    }
+  },
+  "fonts": {
+    "family": "Plus Jakarta Sans"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/chifu-light.svg",
+    "dark": "/logo/chifu-dark.svg",
+    "href": "https://marshell.dev"
+  },
   "navigation": {
     "groups": [
       {
@@ -15,40 +33,38 @@
         "pages": [
           "introduction",
           "quickstart",
-          "ai-editor"
+          "how-it-works"
         ]
       },
       {
-        "group": "Monitoring",
+        "group": "Guides",
         "pages": [
-          "scans",
-          "alerts",
-          "findings",
-          "risk-score"
-        ]
-      },
-      {
-        "group": "Setup",
-        "pages": [
-          "domains",
-          "firewall-bypass",
-          "schedule"
+          "cli",
+          "skill",
+          "agents",
+          "ci"
         ]
       },
       {
         "group": "Account",
         "pages": [
-          "plans",
-          "api-keys"
+          "dashboard",
+          "plans"
         ]
       }
     ]
   },
-  "logo": {
-    "light": "/logo/marshell.dev.png",
-    "dark": "/logo/marshell.dev.png"
-  },
   "navbar": {
+    "links": [
+      {
+        "type": "github",
+        "href": "https://github.com/marshell-dev"
+      },
+      {
+        "label": "Discord",
+        "href": "https://discord.gg/pPsKMze28n"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Open dashboard",
@@ -57,8 +73,29 @@
   },
   "footer": {
     "socials": {
+      "github": "https://github.com/marshell-dev",
+      "x": "https://x.com/MarshellDev",
       "discord": "https://discord.gg/pPsKMze28n",
       "website": "https://marshell.dev"
-    }
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          { "label": "Introduction", "href": "https://docs.marshell.dev/introduction" },
+          { "label": "Quickstart", "href": "https://docs.marshell.dev/quickstart" },
+          { "label": "CLI reference", "href": "https://docs.marshell.dev/cli" },
+          { "label": "Supported agents", "href": "https://docs.marshell.dev/agents" }
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          { "label": "Website", "href": "https://marshell.dev" },
+          { "label": "Dashboard", "href": "https://marshell.dev/dashboard" },
+          { "label": "Discord", "href": "https://discord.gg/pPsKMze28n" }
+        ]
+      }
+    ]
   }
 }

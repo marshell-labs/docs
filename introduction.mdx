@@ -1,86 +1,85 @@
 ---
-title: "What is chifu?"
-description: "chifu watches your site and pings you the moment a new vulnerability lands for your stack, then helps you fix it."
+title: "chifu"
+description: "Dependency security for AI coding agents. Catch vulnerable dependencies and fix them before you commit."
 ---
 
-You shipped a site with Lovable, v0, Bolt, or Cursor. It works. But new
-vulnerabilities drop every week for the stacks AI loves: Next.js, React, the
-dependencies in your `package.json`. You won't hear about them. **chifu does.**
-
-chifu is **continuous security monitoring for vibe-coded sites**. Connect your
-site once and it keeps watching. When a new CVE hits your stack, a header
-regresses, or something gets exposed, chifu tells you in plain English, with the
-fix.
-
 <Frame>
-  <img src="/images/hero-dark.png" alt="chifu dashboard" />
+  <img src="/images/hero.gif" alt="chifu" />
 </Frame>
 
-## How it works, in one breath
+chifu is dependency security for AI coding agents. Run `chifu check` in any
+repo and it matches every package, direct and transitive, against 65,000+
+known vulnerabilities (NVD + OSV). Your AI coding agent fixes the vulnerable
+ones before you commit.
+
+It is two small pieces that work together:
+
+<CardGroup cols={2}>
+  <Card title="A CLI" icon="terminal">
+    `chifu check` reads your dependency tree and reports which packages have
+    known CVEs, plus the single upgrade that clears each one. It detects. It
+    never installs anything.
+  </Card>
+  <Card title="An agent skill" icon="robot">
+    `chifu-dep-guard` teaches your coding agent when to run the check and how
+    to fix the findings safely, without ever executing untrusted package code.
+  </Card>
+</CardGroup>
+
+<Note>
+  There is no MCP server to run. chifu is a CLI plus an agent skill, wired into
+  your editor by a one-command installer.
+</Note>
+
+## The problem
+
+AI coding agents add, bump, and pin dependencies constantly, and some of those
+versions ship with known vulnerabilities. The agent moves on, and the CVE lands
+in your repo. You find out weeks later in a Dependabot pull request, or you
+don't find out at all.
+
+chifu keeps that check inside the coding loop. The moment your agent touches a
+dependency, it can catch the vulnerable version and fix it before the change is
+ever committed.
+
+## How it works
 
 <Steps>
-  <Step title="Connect your site">
-    Add and verify a domain. Takes a couple of minutes, once.
+  <Step title="Install once">
+    One command installs the CLI and drops the `chifu-dep-guard` skill into
+    every coding agent you use.
   </Step>
-  <Step title="chifu watches it">
-    Automatic scans on a schedule, you don't run anything. It tracks your stack
-    and matches known vulnerabilities against it.
+  <Step title="Your agent checks">
+    Whenever the agent changes a dependency (or before a commit), it runs
+    `chifu check` and gets back the vulnerable packages with their fixes.
   </Step>
-  <Step title="You get pinged">
-    When something new shows up, chifu alerts you on **Discord** (Telegram coming
-    soon) with what's wrong and how to fix it.
-  </Step>
-  <Step title="Fix it fast">
-    Read the plain-English fix, or let your AI editor apply it for you with the
-    [chifu MCP](/ai-editor), no copy-pasting reports.
+  <Step title="Your agent fixes">
+    The agent upgrades the vulnerable packages, handles any breaking changes,
+    and re-checks until the project is clean.
   </Step>
 </Steps>
 
-## Start here
+Read [how it works](/how-it-works) for the full detect-and-fix loop, including
+the rule that makes it safe.
+
+## Get started
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    From sign-up to a monitored site in under five minutes.
+    Install chifu in one command and run your first check.
   </Card>
-  <Card title="Get alerts" icon="bell" href="/alerts">
-    Pipe new findings to Discord so you hear about them instantly.
+  <Card title="CLI reference" icon="terminal" href="/cli">
+    Every command, flag, and output format for `chifu check`.
   </Card>
-  <Card title="Fix from your editor" icon="robot" href="/ai-editor">
-    Let Cursor or Claude pull findings and fix them in your code.
+  <Card title="The agent skill" icon="robot" href="/skill">
+    What `chifu-dep-guard` does and how it drives the fix.
   </Card>
-  <Card title="How monitoring works" icon="radar" href="/scans">
-    What chifu checks, how often, and how to read the results.
-  </Card>
-</CardGroup>
-
-## What chifu watches for
-
-<CardGroup cols={2}>
-  <Card title="New known vulnerabilities" icon="shield-halved">
-    Detects your framework and dependency versions and flags the moment a
-    published CVE affects them.
-  </Card>
-  <Card title="Missing security headers" icon="lock">
-    `Content-Security-Policy`, `X-Frame-Options`, HSTS, the headers AI
-    scaffolding skips.
-  </Card>
-  <Card title="TLS & certificates" icon="certificate">
-    Certificate validity, protocol version, cipher strength.
-  </Card>
-  <Card title="Exposure & leaks" icon="eye">
-    Exposed secrets, server banners, and info that shouldn't be public.
+  <Card title="Supported agents" icon="plug" href="/agents">
+    Claude Code, Cursor, Windsurf, Codex, and more.
   </Card>
 </CardGroup>
-
-## Who it's for
-
-chifu is built for **vibe-coders**: founders and builders who ship real products
-with AI tools but never learned application security. If you can read English,
-you can act on a chifu alert. No dashboards to babysit, no security degree
-required.
 
 <Note>
-  chifu is the monitoring product in the **Marshell** family. Your dashboard is at
-  [marshell.dev/dashboard](https://marshell.dev/dashboard). Start free: 3 scans a
-  month, no credit card.
+  chifu checks npm projects (`package.json` plus your lockfile) today. Support
+  for more ecosystems is on the way.
 </Note>

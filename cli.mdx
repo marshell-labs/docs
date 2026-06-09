@@ -1,0 +1,200 @@
+---
+title: "CLI reference"
+description: "Install the chifu CLI and use chifu check and chifu login."
+---
+
+The `chifu` CLI is a small, zero-dependency tool that checks your dependencies
+against known vulnerabilities. It is designed to be run by a coding agent, but
+it works just as well by hand or in CI.
+
+## Install
+
+The [installer](/quickstart) sets this up for you. To install the CLI on its
+own:
+
+<Tabs>
+  <Tab title="Global">
+    ```bash
+    npm i -g @marshell/chifu
+    # or
+    bun add -g @marshell/chifu
+    ```
+  </Tab>
+  <Tab title="Zero install">
+    ```bash
+    npx @marshell/chifu check
+    # or
+    bunx @marshell/chifu check
+    ```
+  </Tab>
+  <Tab title="Standalone binary">
+    Prebuilt binaries for Windows, macOS, and Linux are attached to each
+    [GitHub release](https://github.com/marshell-dev). No Node or Bun required.
+  </Tab>
+</Tabs>
+
+<Note>
+  The CLI needs Node 18 or newer when installed from npm. It ships with no
+  runtime dependencies.
+</Note>
+
+## `chifu check`
+
+Check the dependencies of a project against known vulnerabilities.
+
+```bash
+chifu check [path]
+```
+
+`[path]` is the project directory to check. It defaults to the current
+directory. chifu reads `package.json` plus your lockfile (or `node_modules`)
+to resolve the full dependency tree.
+
+### Options
+
+| Flag | What it does |
+|---|---|
+| `--json` | Print machine-readable JSON instead of the human report. This is the format the agent skill reads. |
+| `--verbose` | List every individual CVE instead of the collapsed per-package view. |
+| `--fail-on-findings` | Exit with a non-zero code when vulnerabilities are found. Use this in CI. |
+| `--api-url <url>` | Point the CLI at a different backend origin. |
+
+### Output
+
+By default, `chifu check` prints a collapsed view with one row per vulnerable
+package:
+
+```text
+  3 of 143 dependencies are vulnerable
+
+  CRITICAL  lodash    4.17.4  → 4.18.0    (8 CVEs)
+  HIGH      axios     0.21.0  → 0.32.0    (13 CVEs)
+  MEDIUM    minimist  1.2.0   → 1.2.3     (1 CVE)
+
+  Run with --verbose to list individual CVEs.
+```
+
+The arrow shows the single version that clears all of that package's CVEs. When
+no fix exists yet, the row shows `→ no fix yet`.
+
+A clean project prints:
+
+```text
+  ✓ No known vulnerabilities in 143 dependencies.
+```
+
+#### Verbose
+
+`--verbose` expands every finding to its CVE, summary, and advisory link:
+
+```text
+  14 vulnerabilities across 143 scanned dependencies
+
+  HIGH      lodash@4.17.4  → upgrade to 4.17.21
+         CVE-2021-23337 — Command injection in lodash
+         https://github.com/advisories/GHSA-35jh-r3h4-6jhm
+```
+
+#### JSON
+
+`--json` prints a structured object for tools and agents:
+
+```json
+{
+  "ecosystem": "npm",
+  "repo": null,
+  "scanned": 143,
+  "source": "package-lock.json (full tree)",
+  "vulnerablePackages": 3,
+  "synced": false,
+  "packages": [
+    {
+      "name": "lodash",
+      "version": "4.17.4",
+      "recommendedVersion": "4.18.0",
+      "worstSeverity": "critical",
+      "cveCount": 8,
+      "cves": ["CVE-2021-23337", "..."]
+    }
+  ],
+  "findings": [
+    {
+      "name": "lodash",
+      "version": "4.17.4",
+      "cve": "CVE-2021-23337",
+      "severity": "high",
+      "vulnerableRange": "<4.17.21",
+      "fixedVersion": "4.17.21",
+      "advisoryUrl": "https://github.com/advisories/GHSA-35jh-r3h4-6jhm",
+      "summary": "Command injection in lodash"
+    }
+  ]
+}
+```
+
+`packages` is the actionable rollup (one entry per vulnerable package, with its
+`recommendedVersion`). `findings` is the raw per-CVE detail. `recommendedVersion`
+is `null` when no fix is published yet.
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Success. Also returned when vulnerabilities are found, unless `--fail-on-findings` is set. |
+| `1` | Vulnerabilities found, only when `--fail-on-findings` is set. |
+| `2` | An error occurred (no `package.json`, a network failure, and so on). |
+
+## `chifu login`
+
+Connect the CLI to your account so results sync to your
+[dashboard](/dashboard). chifu works without this. Logging in only adds the
+sync.
+
+```bash
+chifu login
+```
+
+With no argument, this opens your browser, pairs the device, and saves the key
+for you. No copy-paste of secrets.
+
+To save a key directly:
+
+```bash
+chifu login chf_xxxxxxxx
+```
+
+API keys start with `chf_`. See [the dashboard](/dashboard) for where to find
+yours.
+
+## Configuration
+
+### Config file
+
+`chifu login` stores your key in a config file, readable only by you:
+
+| Platform | Location |
+|---|---|
+| macOS / Linux | `~/.config/chifu/config.json` |
+| Windows | `%APPDATA%\chifu\config.json` |
+
+### Environment variables
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `CHIFU_API_KEY` | none (anonymous) | Provide a `chf_` key without running `chifu login`. |
+| `CHIFU_API_URL` | `https://api.marshell.dev` | Override the backend origin. |
+| `CHIFU_WEB_URL` | `https://marshell.dev` | Override the dashboard origin used during login. |
+
+A key is resolved in this order: `CHIFU_API_KEY`, then the config file, then
+anonymous.
+
+## Global flags
+
+| Flag | What it does |
+|---|---|
+| `chifu --help`, `-h` | Print usage. |
+| `chifu --version`, `-v` | Print the installed version. |
+
+<Card title="Run it in CI" icon="code-branch" href="/ci">
+  Combine `--json` and `--fail-on-findings` to gate your pipeline.
+</Card>

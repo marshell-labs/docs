@@ -1,0 +1,82 @@
+---
+title: "How it works"
+description: "How chifu detects vulnerable dependencies and how your agent fixes them, safely."
+---
+
+chifu splits the work in two. The CLI **detects**. Your agent **fixes**. A
+single rule keeps the whole loop safe.
+
+## The detect-and-fix loop
+
+<Steps>
+  <Step title="Detect" icon="magnifying-glass">
+    `chifu check` reads your `package.json` and lockfile, resolves the full
+    dependency tree (direct and transitive), and matches every package against
+    65,000+ known vulnerabilities from NVD and OSV. For each vulnerable
+    package it returns the single version that clears all of its CVEs.
+  </Step>
+  <Step title="Fix" icon="wrench">
+    Your agent reads the findings and edits files: it bumps versions in
+    `package.json` and adds `overrides` (or `resolutions`) to pin vulnerable
+    transitive packages to a safe version. It works critical-first.
+  </Step>
+  <Step title="Re-check" icon="rotate">
+    The agent re-runs `chifu check` and repeats until no vulnerable packages
+    remain, or only packages with no fix available are left.
+  </Step>
+  <Step title="Hand back" icon="circle-check">
+    The agent reports what it changed and hands control back to you to run your
+    own install, build, and tests.
+  </Step>
+</Steps>
+
+## Why the CLI only detects
+
+chifu intentionally does **not** install or patch anything. It contains no LLM,
+no secrets, and nothing proprietary. It reads files, asks the vulnerability
+database what is affected, and prints the answer. That keeps it small, fast,
+auditable, and safe to run anywhere, including in CI.
+
+The fixing is done by your agent because the agent already understands your
+code. It can read changelogs, handle a breaking major bump, and adjust call
+sites. chifu just tells it exactly what to fix.
+
+## The rule that keeps it safe
+
+<Warning>
+  While checking and fixing, chifu never runs an install. Not `npm install`,
+  `npm ci`, `npm audit fix`, `yarn`, `pnpm install`, or `bun install`.
+</Warning>
+
+Running an install executes the `preinstall` and `postinstall` lifecycle
+scripts of every package in the tree, including the very packages you suspect
+are compromised. That is the exact supply-chain attack chifu exists to stop, so
+the fix loop avoids it entirely.
+
+When the agent needs to re-resolve the lockfile after editing `package.json`, it
+uses the one install-adjacent command that downloads and runs nothing:
+
+```bash
+npm install --package-lock-only --ignore-scripts
+```
+
+This updates the lockfile from your edited `package.json` without fetching
+package tarballs or executing any lifecycle scripts. After the loop is done,
+you run your own real install when you are ready.
+
+## What you get back
+
+A typical fix looks like upgraded versions in `package.json`, a few `overrides`
+for deep transitive packages, and a re-check that comes back clean:
+
+```text
+  ✓ No known vulnerabilities in 143 dependencies.
+```
+
+The change is in your working tree, reviewed and committed by you, before the
+vulnerable versions ever reach your branch.
+
+<Card title="See the skill" icon="robot" href="/skill">
+  The exact instructions your agent follows during the fix loop live in the
+  `chifu-dep-guard` skill.
+</Card>

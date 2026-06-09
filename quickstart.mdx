@@ -1,70 +1,109 @@
 ---
 title: "Quickstart"
-description: "Connect a site and start getting security alerts in under five minutes."
+description: "Install chifu in one command, then let your agent check your dependencies."
 ---
 
-The whole point: set this up once, then let chifu watch your site and ping you
-when something needs attention. No code changes, no agent to install.
+chifu installs with a single command. The installer adds the `chifu` CLI and
+drops the `chifu-dep-guard` skill into every coding agent it finds on your
+machine.
+
+## Install
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    curl -fsSL https://marshell.dev/install.sh | sh
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    irm https://marshell.dev/install.ps1 | iex
+    ```
+  </Tab>
+  <Tab title="npx / bunx">
+    ```bash
+    npx @marshell/chifu-wizard@latest
+    # or
+    bunx @marshell/chifu-wizard@latest
+    ```
+  </Tab>
+</Tabs>
+
+The installer walks you through three things:
 
 <Steps>
-  <Step title="Create your account">
-    Sign up at [marshell.dev/register](https://marshell.dev/register) with email or
-    GitHub / Google. You start on the **Free** plan: 3 scans a month, no credit card.
-
-    <Tip>
-      Don't see the dashboard? Check your inbox and click the confirmation link first.
-    </Tip>
+  <Step title="Install the CLI">
+    It installs `@marshell/chifu` globally so `chifu` is on your PATH. If a
+    global install is not possible, your agent can still run it with `bunx` or
+    `npx`.
   </Step>
-
-  <Step title="Add a domain">
-    Open **Domains → Add domain** and enter your hostname, `myapp.com` or
-    `myapp.vercel.app`. It shows as **Pending** until you verify it.
+  <Step title="Wire up your agents">
+    It detects Claude Code, Cursor, Windsurf, Codex, OpenCode, Gemini CLI, and
+    Cline, then writes the skill into each one in its native format. See
+    [supported agents](/agents).
   </Step>
-
-  <Step title="Verify you own it">
-    Expand the domain and pick whichever is easier:
-
-    <Tabs>
-      <Tab title="File (easiest on Vercel)">
-        Add `public/chifu-token.txt` containing only the token chifu shows, then
-        redeploy. Click **Verify**.
-      </Tab>
-      <Tab title="DNS TXT">
-        Add a `TXT` record at `_chifu.yourdomain.com` with the `chifu-verify=…`
-        value. Wait a minute, then click **Verify**.
-      </Tab>
-    </Tabs>
-
-    Once it goes **Verified** (green), chifu starts watching it.
-  </Step>
-
-  <Step title="Turn on alerts">
-    So you actually hear about new findings, open the **Alerts** page, paste your
-    Discord webhook URL, and click **Save**. chifu will post completed scans and
-    anything serious straight to your channel. Full guide: [Alerts](/alerts).
-    (Telegram bot coming soon.)
-  </Step>
-
-  <Step title="You're monitored">
-    That's it. chifu now [scans automatically on a schedule](/schedule). Want to
-    see results right away? Hit **Scans → Run scan now** and pick your domain. The
-    first report lands in seconds for most static sites.
+  <Step title="Sign in (optional)">
+    You can connect an account to sync results to your
+    [dashboard](/dashboard). chifu works fully without one.
   </Step>
 </Steps>
 
-## What's next?
+<Tip>
+  Prefer to install the pieces yourself? See [the CLI](/cli) and
+  [the skill](/skill) for manual setup.
+</Tip>
+
+## Run your first check
+
+From any npm project, run:
+
+```bash
+chifu check
+```
+
+A clean project looks like this:
+
+```text
+  ✓ No known vulnerabilities in 143 dependencies.
+```
+
+A project with vulnerable packages looks like this:
+
+```text
+  3 of 143 dependencies are vulnerable
+
+  CRITICAL  lodash    4.17.4  → 4.18.0    (8 CVEs)
+  HIGH      axios     0.21.0  → 0.32.0    (13 CVEs)
+  MEDIUM    minimist  1.2.0   → 1.2.3     (1 CVE)
+
+  Run with --verbose to list individual CVEs.
+```
+
+Each row shows the package, its current version, the single upgrade that clears
+all of its CVEs, and how many CVEs that is.
+
+<Note>
+  No account is required to run `chifu check`. It reads your `package.json` and
+  lockfile, checks them against the vulnerability database, and prints the
+  result.
+</Note>
+
+## Let your agent take over
+
+You do not have to run `chifu` by hand. Once the skill is installed, just keep
+building. The next time your agent adds or upgrades a dependency, or right
+before it commits, it runs `chifu check` on its own and fixes whatever it finds.
+
+Try it: ask your agent to add a dependency, then watch it check and clean up
+before finishing.
+
+## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Fix findings from your editor" icon="robot" href="/ai-editor">
-    Connect the MCP server so Cursor/Claude fixes issues in your code.
+  <Card title="How it works" icon="diagram-project" href="/how-it-works">
+    The full detect-and-fix loop, and the rule that keeps it safe.
   </Card>
-  <Card title="Read your risk score" icon="gauge" href="/risk-score">
-    The 0–99 gauge and the five things that move it.
-  </Card>
-  <Card title="Behind a Vercel/Cloudflare firewall?" icon="shield" href="/firewall-bypass">
-    Let chifu through your bot protection.
-  </Card>
-  <Card title="Plans & pricing" icon="credit-card" href="/plans">
-    Start free. Upgrade when you outgrow it.
+  <Card title="Use it in CI" icon="code-branch" href="/ci">
+    Fail a build when vulnerable dependencies slip through.
   </Card>
 </CardGroup>

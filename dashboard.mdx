@@ -51,8 +51,8 @@ API keys start with `chf_`. You get your first key when you sign up, and you can
 view and manage keys from the dashboard.
 
 A key is read in this order: the `CHIFU_API_KEY` environment variable, then the
-[config file](/cli#configuration), then anonymous. Use the environment variable
-in CI:
+[config file](/cli#configuration). `chifu check` requires one. Use the
+environment variable in CI:
 
 ```bash
 CHIFU_API_KEY=chf_xxxxxxxx chifu check
@@ -66,9 +66,8 @@ CHIFU_API_KEY=chf_xxxxxxxx chifu check
 
 ## Quotas
 
-Running `chifu check` locally without an account is free and unlimited. Only
-**synced checks**, the ones that save to your dashboard while signed in, count
-toward your plan. See [plans](/plans) for the limits.
+chifu needs an account, so every `chifu check` runs signed in and counts as one
+check toward your plan. See [plans](/plans) for the limits.
 
 <Card title="Plans" icon="credit-card" href="/plans">
   Compare Free, Pro, and Max.

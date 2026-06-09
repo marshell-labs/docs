@@ -27,9 +27,9 @@ vulnerable version would otherwise slip in:
 
 <Steps>
   <Step title="Check">
-    The agent runs `chifu check --json` in the project root. No account or API
-    key is required. If `chifu` is not on the PATH, it falls back to
-    `bunx @marshell/chifu@latest check --json`.
+    The agent runs `chifu check --json` in the project root (you must be signed
+    in — run `chifu login` first, or set `CHIFU_API_KEY`). If `chifu` is not on
+    the PATH, it falls back to `bunx @marshell/chifu@latest check --json`.
   </Step>
   <Step title="Read the findings">
     It reads `packages` (the rolled-up list of vulnerable packages, each with a

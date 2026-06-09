@@ -146,9 +146,9 @@ is `null` when no fix is published yet.
 
 ## `chifu login`
 
-Connect the CLI to your account so results sync to your
-[dashboard](/dashboard). chifu works without this. Logging in only adds the
-sync.
+Connect the CLI to your account. chifu **requires** an account — run this before
+your first `chifu check` (or set `CHIFU_API_KEY`). Results then sync to your
+[dashboard](/dashboard).
 
 ```bash
 chifu login
@@ -181,12 +181,13 @@ yours.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `CHIFU_API_KEY` | none (anonymous) | Provide a `chf_` key without running `chifu login`. |
+| `CHIFU_API_KEY` | none | Provide a `chf_` key without running `chifu login` (required for `chifu check`). |
 | `CHIFU_API_URL` | `https://api.marshell.dev` | Override the backend origin. |
 | `CHIFU_WEB_URL` | `https://marshell.dev` | Override the dashboard origin used during login. |
 
-A key is resolved in this order: `CHIFU_API_KEY`, then the config file, then
-anonymous.
+A key is resolved in this order: `CHIFU_API_KEY`, then the config file. `chifu
+check` requires one — without it, the command exits with an error telling you to
+run `chifu login`.
 
 ## Global flags
 

@@ -42,9 +42,9 @@ The installer walks you through three things:
     Cline, then writes the skill into each one in its native format. See
     [supported agents](/agents).
   </Step>
-  <Step title="Sign in (optional)">
-    You can connect an account to sync results to your
-    [dashboard](/dashboard). chifu works fully without one.
+  <Step title="Sign in (required)">
+    chifu needs an account. Sign in to mint your `chf_` key — `chifu check`
+    won't run without it. Browser pairing, no copy-pasting secrets.
   </Step>
 </Steps>
 
@@ -83,9 +83,9 @@ Each row shows the package, its current version, the single upgrade that clears
 all of its CVEs, and how many CVEs that is.
 
 <Note>
-  No account is required to run `chifu check`. It reads your `package.json` and
-  lockfile, checks them against the vulnerability database, and prints the
-  result.
+  `chifu check` requires an account — run `chifu login` first (or set
+  `CHIFU_API_KEY`). It reads your `package.json` and lockfile, checks them
+  against the vulnerability database, and prints the result.
 </Note>
 
 ## Let your agent take over

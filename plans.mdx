@@ -1,17 +1,17 @@
 ---
 title: "Plans"
-description: "chifu pricing. The local CLI is free and unlimited. Plans meter synced checks."
+description: "chifu pricing. Every check needs an account; plans meter checks per month."
 ---
 
-The `chifu` CLI is free and open source. Running `chifu check` locally, without
-an account, is unlimited and always will be.
+The `chifu` CLI is free and open source, but using it needs an account: every
+`chifu check` authenticates and runs against your [dashboard](/dashboard).
 
-Plans meter **synced checks**: the checks that save to your
-[dashboard](/dashboard) while you are signed in. Local checks never count.
+Plans meter **checks per month** — each `chifu check` run counts as one,
+whether you run it by hand, through the agent skill, or in CI.
 
 ## Pricing
 
-| Plan | Price | Synced checks / month |
+| Plan | Price | Checks / month |
 |---|---|---|
 | **Free** | $0 | 100 |
 | **Pro** | $7.99 / mo | 400 |
@@ -19,14 +19,13 @@ Plans meter **synced checks**: the checks that save to your
 
 <CardGroup cols={3}>
   <Card title="Free" icon="seedling">
-    Everything in the CLI, plus 100 synced checks a month and your dashboard
-    history. No credit card.
+    100 dependency checks a month plus your dashboard history. No credit card.
   </Card>
   <Card title="Pro" icon="bolt">
-    400 synced checks a month for projects and small teams that check often.
+    400 checks a month for projects and small teams that check often.
   </Card>
   <Card title="Max" icon="rocket">
-    1,600 synced checks a month for teams running chifu across many repos.
+    1,600 checks a month for teams running chifu across many repos.
   </Card>
 </CardGroup>
 
@@ -35,15 +34,13 @@ Plans meter **synced checks**: the checks that save to your
   [dashboard](https://marshell.dev/dashboard).
 </Note>
 
-## What counts as a synced check
+## What counts as a check
 
-A synced check is one `chifu check` run while signed in, which uploads your
-dependency list to your dashboard for history and tracking.
+chifu needs an account, so every `chifu check` runs signed in and counts as one
+check against your monthly limit — whether you run it by hand, through the agent
+skill in your editor, or in CI.
 
-- Running `chifu check` with no account: **free and unlimited**, never counted.
-- Running `chifu check` signed in: counts as one synced check.
-
-If you only want local checks in your editor and CI, you never need a paid plan.
+The free 100/month covers everyday use; upgrade when your agent checks a lot.
 
 <Card title="Sign in" icon="right-to-bracket" href="/dashboard">
   Connect an account to start syncing your checks.

@@ -37,9 +37,8 @@
 - API keys start with `chf_`.
 - Supported agents: Claude Code, Cursor, Windsurf, Codex, OpenCode, Gemini CLI,
   Cline.
-- Plans meter **synced checks** (signed-in checks saved to the dashboard).
-  Local `chifu check` is free and unlimited. Free = $0 / 100, Pro = $7.99 / 400,
-  Max = $23.99 / 1,600 synced checks per month.
+- Plans meter **checks** (chifu needs an account; every `chifu check` counts).
+  Free = $0 / 100, Pro = $7.99 / 400, Max = $23.99 / 1,600 checks per month.
 
 ## Style preferences
 

@@ -1,0 +1,93 @@
+---
+title: chifu
+description: Dependency security for AI coding agents. Catch vulnerable dependencies and fix them before you commit.
+mode: wide
+---
+
+<div className="docs-hero">
+  <img src="/images/hero-fish.gif" alt="" className="docs-hero-bg" />
+  <div className="docs-hero-fade" />
+  <div className="docs-hero-inner">
+    <img src="/images/fish-logo.png" alt="chifu" className="docs-hero-mark" />
+    <h1 className="docs-hero-title">chifu</h1>
+    <p className="docs-hero-lead">
+      Dependency security for AI coding agents. Match every resolved dependency against <strong>145,000+</strong> CVEs — your agent fixes what it introduced before merge.
+    </p>
+  </div>
+</div>
+
+```bash
+curl -fsSL https://marshell.dev/install.sh | sh
+```
+
+```bash
+npx @marshell/chifu-wizard@latest
+```
+
+<p className="docs-agents-label">Works with your coding agents</p>
+
+<div className="docs-agent-grid">
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/claude-code.png" alt="Claude Code" /></div>
+  <div className="docs-agent-tile docs-agent-tile-light invert"><img src="/images/agents/cursor.png" alt="Cursor" /></div>
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/codex.png" alt="Codex" /></div>
+  <div className="docs-agent-tile docs-agent-tile-light invert"><img src="/images/agents/github-copilot.png" alt="GitHub Copilot" /></div>
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/gemini.png" alt="Gemini" /></div>
+  <div className="docs-agent-tile docs-agent-tile-light invert"><img src="/images/agents/windsurf.png" alt="Windsurf" /></div>
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/opencode.png" alt="OpenCode" /></div>
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/cline.png" alt="Cline" /></div>
+  <div className="docs-agent-tile docs-agent-tile-light invert"><img src="/images/agents/openai.png" alt="OpenAI" /></div>
+  <div className="docs-agent-tile docs-agent-tile-dark"><img src="/images/agents/lovable.png" alt="Lovable" /></div>
+  <div className="docs-agent-tile docs-agent-tile-light invert"><img src="/images/agents/v0.png" alt="v0" /></div>
+</div>
+
+Two pieces work together: a **CLI** that detects, and an **agent skill** that knows when to check and how to fix safely.
+
+---
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Install in one command and run your first check.
+  </Card>
+  <Card title="How it works" icon="workflow" href="/how-it-works">
+    The detect-and-fix loop and the rule that keeps it safe.
+  </Card>
+  <Card title="CLI reference" icon="terminal" href="/cli">
+    Every command, flag, and output format.
+  </Card>
+  <Card title="Agent skill" icon="bot" href="/skill">
+    What chifu-dep-guard teaches your coding agent.
+  </Card>
+</CardGroup>
+
+## Use chifu
+
+<CardGroup cols={2}>
+  <Card title="Capabilities" icon="layers" href="/capabilities">
+    Check, fix, install-script scan, CI gates, dashboard sync.
+  </Card>
+  <Card title="CI gates" icon="shield-check" href="/ci">
+    Fail the build when vulnerable deps slip through.
+  </Card>
+  <Card title="Ecosystems" icon="package" href="/ecosystems">
+    npm, PyPI, Go, Maven, NuGet, crates.io, Packagist, RubyGems.
+  </Card>
+  <Card title="Dashboard" icon="layout-dashboard" href="/dashboard">
+    Sign in, API keys, and check history.
+  </Card>
+</CardGroup>
+
+## Quick links
+
+<CardGroup cols={2}>
+  <Card title="Supported agents" icon="cpu" href="/agents">
+    Claude Code, Cursor, Windsurf, Codex, and more.
+  </Card>
+  <Card title="Plans" icon="credit-card" href="/plans">
+    Free tier and paid plans — checks per month.
+  </Card>
+  <Card title="Troubleshooting" icon="circle-help" href="/troubleshooting">
+    Common issues and fixes.
+  </Card>
+</CardGroup>

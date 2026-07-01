@@ -1,0 +1,228 @@
+/* Marshell docs — theme-aware tokens (mirrors landing globals.css) */
+
+:root {
+  --ms-page-bg: #ffffff;
+  --ms-surface-dark: #18181b;
+  --ms-surface-light: #f4f4f5;
+  --ms-border: #e5e5e5;
+  --ms-fg: #0a0a0a;
+  --ms-muted: #737373;
+}
+
+html.dark,
+html[data-theme="dark"] {
+  --ms-page-bg: #0a0a0a;
+  --ms-surface-dark: #18181b;
+  --ms-surface-light: #f4f4f5;
+  --ms-border: #262626;
+  --ms-fg: #f5f5f5;
+  --ms-muted: #8a8a8a;
+}
+
+/* ── Mintlify cards: never override bg in light mode ── */
+html.dark a.card.block {
+  background-color: #171717 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark a.card.block [data-component-part="card-title"] {
+  color: #f5f5f5 !important;
+}
+
+html.dark a.card.block [data-component-part="card-content"] {
+  color: #a3a3a3 !important;
+}
+
+/* Light mode: leave Mintlify defaults (bg-white, text-gray-800/600) */
+
+/* Kill green success accents Mintlify might inject */
+.text-green-500,
+.text-green-600,
+.text-emerald-500,
+.text-emerald-600 {
+  color: var(--ms-muted) !important;
+}
+
+/* ── Welcome hero ── */
+
+.docs-hero {
+  position: relative;
+  margin: -1.5rem -1.5rem 2rem;
+  padding: 3rem 1.5rem 2.5rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--ms-border);
+  border-radius: 0;
+}
+
+.docs-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  opacity: 0.35;
+  transform: scale(1.1);
+  pointer-events: none;
+}
+
+html:not(.dark) .docs-hero-bg {
+  opacity: 0.2;
+}
+
+.docs-hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--ms-page-bg));
+  pointer-events: none;
+}
+
+.docs-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.docs-hero-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.docs-hero-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ms-fg);
+}
+
+.docs-hero-lead {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ms-muted);
+}
+
+.docs-hero-lead strong {
+  color: var(--ms-fg);
+}
+
+/* ── Agent icon strip (landing alternating tiles) ── */
+
+.docs-agents-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ms-muted);
+  text-align: center;
+}
+
+.docs-agent-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.docs-agent-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.docs-agent-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.docs-agent-tile-dark {
+  background: var(--ms-surface-dark);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+.docs-agent-tile-light {
+  background: var(--ms-surface-light);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Monochrome logos on light tiles → dark glyphs */
+.docs-agent-tile-light.invert img {
+  filter: invert(1);
+}
+
+/* Monochrome logos on dark tiles in dark mode → white glyphs */
+html.dark .docs-agent-tile-dark.invert img {
+  filter: invert(1);
+}
+
+/* ── Agents page cards ── */
+
+.docs-agent-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.docs-agent-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.docs-agent-card img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.docs-agent-card span {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.docs-agent-card-dark {
+  background: var(--ms-surface-dark);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.docs-agent-card-dark span {
+  color: #f5f5f5;
+}
+
+.docs-agent-card-light {
+  background: var(--ms-surface-light);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.docs-agent-card-light span {
+  color: #0a0a0a;
+}
+
+.docs-agent-card-light.invert img {
+  filter: invert(1);
+}
+
+html.dark .docs-agent-card-dark.invert img {
+  filter: invert(1);
+}

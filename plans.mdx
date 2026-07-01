@@ -1,47 +1,32 @@
 ---
-title: "Plans"
-description: "chifu pricing. Every check needs an account; plans meter checks per month."
+title: Plans
+description: chifu pricing. Every check needs an account; plans meter checks per month.
 ---
 
-The `chifu` CLI is free and open source, but using it needs an account: every
-`chifu check` authenticates and runs against your [dashboard](/dashboard).
+The CLI is open source. Using it requires an account — every `chifu check` authenticates against your dashboard.
 
-Plans meter **checks per month** — each `chifu check` run counts as one,
-whether you run it by hand, through the agent skill, or in CI.
+Plans meter **checks per month**. One run = one check, whether by hand, agent, or CI.
 
 ## Pricing
 
 | Plan | Price | Checks / month |
-|---|---|---|
-| **Free** | $0 | 100 |
-| **Pro** | $7.99 / mo | 400 |
-| **Max** | $23.99 / mo | 1,600 |
+| --- | --- | --- |
+| Free | $0 | 100 |
+| Pro | $7.99 / mo | 400 |
+| Max | $23.99 / mo | 1,600 |
 
-<CardGroup cols={3}>
-  <Card title="Free" icon="seedling">
-    100 dependency checks a month plus your dashboard history. No credit card.
-  </Card>
-  <Card title="Pro" icon="bolt">
-    400 checks a month for projects and small teams that check often.
-  </Card>
-  <Card title="Max" icon="rocket">
-    1,600 checks a month for teams running chifu across many repos.
-  </Card>
-</CardGroup>
-
-<Note>
-  Every account starts on the Free plan. Upgrade any time from your
-  [dashboard](https://marshell.dev/dashboard).
-</Note>
+Every account starts on Free. Upgrade anytime from the [dashboard](https://marshell.dev/dashboard/billing) or [marshell.dev/plans](https://marshell.dev/plans).
 
 ## What counts as a check
 
-chifu needs an account, so every `chifu check` runs signed in and counts as one
-check against your monthly limit — whether you run it by hand, through the agent
-skill in your editor, or in CI.
+Each `chifu check` — local, agent-driven, or CI — counts as one check against your monthly limit.
 
-The free 100/month covers everyday use; upgrade when your agent checks a lot.
+100/month on Free covers everyday agent use. Upgrade when you check across many repos or run CI on every push.
 
-<Card title="Sign in" icon="right-to-bracket" href="/dashboard">
-  Connect an account to start syncing your checks.
-</Card>
+## Sign in to start
+
+```bash
+chifu login
+```
+
+Or run the [wizard](/quickstart) — it signs you in during setup.

@@ -1,0 +1,82 @@
+---
+title: Troubleshooting
+description: Common chifu issues and how to fix them.
+---
+
+## `chifu check` fails with no API key
+
+Run `chifu login` or set `CHIFU_API_KEY`. Every check requires an account.
+
+```bash
+chifu login
+# or
+export CHIFU_API_KEY=chf_xxxxxxxx
+```
+
+## CI passes but vulnerabilities exist
+
+Without `--fail-on-findings`, `chifu check` exits `0` even when it finds CVEs. Add the flag:
+
+```bash
+chifu check --fail-on-findings
+```
+
+## Lockfile out of sync
+
+`chifu check` reads the lockfile when present. Commit an up-to-date lockfile. If `package.json` and lockfile disagree, the lockfile wins.
+
+## Monorepo: check ran in wrong directory
+
+Run from the subproject with the lockfile:
+
+```bash
+cd frontend && chifu check
+```
+
+## Wizard didn't detect my agent
+
+Use `--target` or `--all-agents`:
+
+```bash
+npx @marshell/chifu-wizard@latest --target cursor --target claude --yes
+```
+
+Or paste the self-contained prompt:
+
+```bash
+npx @marshell/chifu-wizard@latest --agent
+```
+
+See [Supported agents](/agents).
+
+## Agent ran `npm install` during fix
+
+The skill forbids full installs during the fix loop. Only `npm install --package-lock-only --ignore-scripts` to re-resolve lockfiles. See [How it works](/how-it-works).
+
+## `recommendedVersion` is null
+
+No patched version exists yet. Replace the dependency, accept the risk, or wait for an advisory fix.
+
+## Checks not appearing in dashboard
+
+Confirm you're signed in (`chifu login`) and using the same account. Each `chifu check` syncs when authenticated.
+
+## Hit monthly check limit
+
+Plans meter checks per month. See [Plans](/plans) or upgrade at [marshell.dev/plans](https://marshell.dev/plans).
+
+## Network / backend errors
+
+Override backend for self-hosted:
+
+```bash
+export CHIFU_API_URL=https://your-api.example.com
+```
+
+Exit code `2` = error. Run with a manifest present and network access to the API.
+
+## Update the CLI and skill
+
+```bash
+npx @marshell/chifu-wizard@latest update
+```

@@ -18,7 +18,7 @@
   product = chifu, site = `marshell.dev`, dashboard = `marshell.dev/dashboard`,
   docs = `docs.marshell.dev`.
 - The core loop: the CLI **detects** (matches `package.json` + lockfile against
-  65,000+ CVEs from NVD + OSV), the agent **fixes** (edits `package.json` and
+  145,000+ CVEs from NVD + OSV), the agent **fixes** (edits `package.json` and
   `overrides`/`resolutions`, re-checks until clean). The CLI never installs or
   patches anything.
 - The safety rule (load-bearing, repeat it): while checking or fixing, never

@@ -1,73 +1,49 @@
 ---
-title: "Quickstart"
-description: "Install chifu in one command, then let your agent check your dependencies."
+title: Quickstart
+description: Install chifu in one command, then let your agent check your dependencies.
 ---
 
-chifu installs with a single command. The installer adds the `chifu` CLI and
-drops the `chifu-dep-guard` skill into every coding agent it finds on your
-machine.
+The installer adds the `chifu` CLI and drops the `chifu-dep-guard` skill into every coding agent it finds.
 
-## Install
+```bash
+curl -fsSL https://marshell.dev/install.sh | sh
+```
 
-<Tabs>
-  <Tab title="macOS / Linux">
-    ```bash
-    curl -fsSL https://marshell.dev/install.sh | sh
-    ```
-  </Tab>
-  <Tab title="Windows">
+```bash
+npx @marshell/chifu-wizard@latest
+```
+
+<AccordionGroup>
+  <Accordion title="Windows">
     ```powershell
     irm https://marshell.dev/install.ps1 | iex
     ```
-  </Tab>
-  <Tab title="npx / bunx">
-    ```bash
-    npx @marshell/chifu-wizard@latest
-    # or
-    bunx @marshell/chifu-wizard@latest
-    ```
-  </Tab>
-</Tabs>
+  </Accordion>
+</AccordionGroup>
 
-The installer walks you through three things:
+The wizard does three things:
 
-<Steps>
-  <Step title="Install the CLI">
-    It installs `@marshell/chifu` globally so `chifu` is on your PATH. If a
-    global install is not possible, your agent can still run it with `bunx` or
-    `npx`.
-  </Step>
-  <Step title="Wire up your agents">
-    It detects Claude Code, Cursor, Windsurf, Codex, OpenCode, Gemini CLI, and
-    Cline, then writes the skill into each one in its native format. See
-    [supported agents](/agents).
-  </Step>
-  <Step title="Sign in (required)">
-    chifu needs an account. Sign in to mint your `chf_` key — `chifu check`
-    won't run without it. Browser pairing, no copy-pasting secrets.
-  </Step>
-</Steps>
+1. **Installs the CLI** — `chifu` on your PATH (or use `npx @marshell/chifu` with no global install).
+2. **Wires up your agents** — writes the skill into Claude Code, Cursor, Windsurf, Codex, and more. See [Supported agents](/agents).
+3. **Signs you in** — browser pairing mints your `chf_` key. `chifu check` requires an account.
 
-<Tip>
-  Prefer to install the pieces yourself? See [the CLI](/cli) and
-  [the skill](/skill) for manual setup.
-</Tip>
+Prefer manual setup? See [CLI](/cli) and [Agent skill](/skill).
 
 ## Run your first check
 
-From any npm project, run:
+From any project with a lockfile:
 
 ```bash
 chifu check
 ```
 
-A clean project looks like this:
+Clean:
 
 ```text
   ✓ No known vulnerabilities in 143 dependencies.
 ```
 
-A project with vulnerable packages looks like this:
+Findings:
 
 ```text
   3 of 143 dependencies are vulnerable
@@ -75,35 +51,15 @@ A project with vulnerable packages looks like this:
   CRITICAL  lodash    4.17.4  → 4.18.0    (8 CVEs)
   HIGH      axios     0.21.0  → 0.32.0    (13 CVEs)
   MEDIUM    minimist  1.2.0   → 1.2.3     (1 CVE)
-
-  Run with --verbose to list individual CVEs.
 ```
 
-Each row shows the package, its current version, the single upgrade that clears
-all of its CVEs, and how many CVEs that is.
-
-<Note>
-  `chifu check` requires an account — run `chifu login` first (or set
-  `CHIFU_API_KEY`). It reads your `package.json` and lockfile, checks them
-  against the vulnerability database, and prints the result.
-</Note>
+Each row is one package with the single upgrade that clears all its CVEs.
 
 ## Let your agent take over
 
-You do not have to run `chifu` by hand. Once the skill is installed, just keep
-building. The next time your agent adds or upgrades a dependency, or right
-before it commits, it runs `chifu check` on its own and fixes whatever it finds.
-
-Try it: ask your agent to add a dependency, then watch it check and clean up
-before finishing.
+Once the skill is installed, your agent runs `chifu check` when it changes dependencies or before it commits. Ask it to add a dependency and watch it check and fix before finishing.
 
 ## Next steps
 
-<CardGroup cols={2}>
-  <Card title="How it works" icon="diagram-project" href="/how-it-works">
-    The full detect-and-fix loop, and the rule that keeps it safe.
-  </Card>
-  <Card title="Use it in CI" icon="code-branch" href="/ci">
-    Fail a build when vulnerable dependencies slip through.
-  </Card>
-</CardGroup>
+- [How it works](/how-it-works) — detect, fix, re-check loop
+- [Use it in CI](/ci) — gate your pipeline

@@ -1,31 +1,37 @@
 ---
-title: "Continuous integration"
-description: "Fail a build when vulnerable dependencies make it past your agent."
+title: Continuous integration
+description: Fail a build when vulnerable dependencies make it past your agent.
 ---
 
-The same `chifu check` that runs in your editor runs in CI. The agent skill is
-your first line of defense. A CI check is the backstop that catches anything
-that slips through, including dependencies a human added by hand.
+The agent skill is the first line of defense. CI is the backstop — catches hand-added deps and anything that slips through.
 
 ## Gate a build
-
-Add `--fail-on-findings` so the command exits non-zero when vulnerabilities are
-present:
 
 ```bash
 chifu check --fail-on-findings
 ```
 
 | Exit code | Meaning |
-|---|---|
-| `0` | No vulnerabilities. |
-| `1` | Vulnerabilities found (with `--fail-on-findings`). |
-| `2` | An error occurred. |
+| --- | --- |
+| `0` | No vulnerabilities |
+| `1` | Vulnerabilities found (with `--fail-on-findings`) |
+| `2` | Error |
 
-<Note>
-  Without `--fail-on-findings`, `chifu check` reports vulnerabilities but still
-  exits `0`. In CI you almost always want the flag.
-</Note>
+Without `--fail-on-findings`, findings still exit `0`. Always use the flag in CI.
+
+## Install-script gate (optional)
+
+Flag new or changed deps that run install lifecycle scripts:
+
+```bash
+chifu check --fail-on-findings --fail-on-install-scripts
+```
+
+Scan the full lockfile instead of git diff only:
+
+```bash
+chifu check --fail-on-findings --all-install-scripts
+```
 
 ## GitHub Actions
 
@@ -42,34 +48,35 @@ jobs:
         with:
           node-version: 20
       - name: Check dependencies
+        env:
+          CHIFU_API_KEY: ${{ secrets.CHIFU_API_KEY }}
         run: npx @marshell/chifu@latest check --fail-on-findings
 ```
 
-chifu reads `package.json` and your committed lockfile, so you do not need to
-run an install first. That keeps the job fast and avoids executing package
-lifecycle scripts in CI.
+chifu reads your committed lockfile — **no install step required**. That keeps CI fast and avoids running package lifecycle scripts.
+
+Set `CHIFU_API_KEY` from repo secrets. Every check requires an account.
 
 ## Other CI systems
 
-The command is the same everywhere. For example, GitLab CI:
-
 ```yaml
+# GitLab CI example
 chifu:
   image: node:20
   script:
     - npx @marshell/chifu@latest check --fail-on-findings
+  variables:
+    CHIFU_API_KEY: $CHIFU_API_KEY
 ```
 
 ## Machine-readable output
-
-Add `--json` to capture results as an artifact or feed them to another tool:
 
 ```bash
 chifu check --json > chifu-report.json
 ```
 
-See the [CLI reference](/cli) for the full JSON shape.
+See [CLI reference](/cli) for the JSON shape.
 
-<Card title="Sync to your dashboard" icon="chart-line" href="/dashboard">
-  Sign in to keep a history of checks across your projects.
-</Card>
+## Dashboard sync
+
+Authenticated checks sync to your [dashboard](/dashboard) history.

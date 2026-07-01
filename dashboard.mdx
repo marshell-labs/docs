@@ -1,74 +1,56 @@
 ---
-title: "Dashboard & syncing"
-description: "Sign in to sync your checks to the chifu dashboard, and manage your API keys."
+title: Dashboard & syncing
+description: Sign in to sync your checks to the chifu dashboard, and manage your API keys.
 ---
 
-chifu runs fully offline of an account. `chifu check` reads your files, checks
-them against the vulnerability database, and prints the result, no sign-in
-required. Signing in adds one thing: your results sync to the
-[dashboard](https://marshell.dev/dashboard) so you have a history across
-projects.
-
-## Why sign in
-
-<CardGroup cols={2}>
-  <Card title="Synced history" icon="clock-rotate-left">
-    Every signed-in check is saved to your dashboard, so you can see what was
-    vulnerable and when, across all your projects.
-  </Card>
-  <Card title="Team visibility" icon="users">
-    Checks roll up under your organization, giving the whole team one view of
-    dependency risk.
-  </Card>
-</CardGroup>
-
-A check that synced shows `"synced": true` in the JSON output. When you are not
-signed in, the CLI reminds you that results were not saved.
+Every `chifu check` requires an account. When signed in, results sync to [marshell.dev/dashboard](https://marshell.dev/dashboard) with history per repo.
 
 ## Sign in
 
-The simplest way is from the CLI:
+**Browser pairing (recommended)**
 
 ```bash
 chifu login
 ```
 
-This opens your browser, pairs the device, and saves your key automatically. No
-copy-paste of secrets.
+Opens a pairing URL in your browser. No copy-pasting secrets. Key saved to `~/.config/chifu/config.json` (mode `600`).
 
-You can also pass a key directly:
+**Manual key**
 
 ```bash
 chifu login chf_xxxxxxxx
 ```
 
-The [installer](/quickstart) can sign you in during setup, or you can pass
-`--api-key chf_xxxxxxxx` to it.
+Or set `CHIFU_API_KEY`. Keys start with `chf_`.
+
+The [wizard](/quickstart) can sign you in during install (`--api-key` or browser flow).
 
 ## API keys
 
-API keys start with `chf_`. You get your first key when you sign up, and you can
-view and manage keys from the dashboard.
+Create and revoke keys in the dashboard under **Settings**. Use keys for:
 
-A key is read in this order: the `CHIFU_API_KEY` environment variable, then the
-[config file](/cli#configuration). `chifu check` requires one. Use the
-environment variable in CI:
+- Local CLI (`chifu login` or `CHIFU_API_KEY`)
+- CI (`CHIFU_API_KEY` secret)
+- Never commit keys to git
+
+## What syncs
+
+Each authenticated `chifu check` records:
+
+- Vulnerable package count and severity rollup
+- Repo identity (from `git remote` when available)
+- Timestamp for history and charts
+
+The dashboard does **not** re-run CVE matching — it displays what the CLI reported.
+
+## Usage limits
+
+Plans meter checks per month. See [Plans](/plans).
+
+## Log out locally
 
 ```bash
-CHIFU_API_KEY=chf_xxxxxxxx chifu check
+chifu logout
 ```
 
-<Warning>
-  Treat your API key like a password. It is stored locally in a file readable
-  only by you. If a key is exposed, revoke it from the dashboard and run
-  `chifu login` again.
-</Warning>
-
-## Quotas
-
-chifu needs an account, so every `chifu check` runs signed in and counts as one
-check toward your plan. See [plans](/plans) for the limits.
-
-<Card title="Plans" icon="credit-card" href="/plans">
-  Compare Free, Pro, and Max.
-</Card>
+Clears the local key. Dashboard account unchanged.

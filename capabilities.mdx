@@ -1,0 +1,26 @@
+---
+title: Capabilities
+description: Everything chifu does — check, fix, install-script scan, CI gates, and dashboard sync.
+---
+
+One page map of what chifu can do. Each row links to the deep dive.
+
+| Capability | What it does | Details |
+| --- | --- | --- |
+| **Check** | Scan resolved deps against 145k+ CVEs | [`chifu check`](/cli#chifu-check) — human or `--json` output |
+| **Fix** | Apply recommended npm bumps + overrides | [`chifu fix`](/cli#chifu-fix) — npm only; agent still preferred for breaking changes |
+| **Install-script scan** | Flag lifecycle scripts on new/changed deps | [`--fail-on-install-scripts`](/cli#chifu-check) — supply-chain risk npm audit ignores |
+| **CI gate** | Fail the build on findings | [`--fail-on-findings`](/ci) |
+| **Dashboard sync** | History per repo, usage metering | [Dashboard](/dashboard) — requires `chifu login` |
+
+## What chifu is not
+
+- Not an MCP server — CLI + agent skill, wired by the [wizard](/quickstart)
+- Not `npm audit` — collapsed per-package fixes, multi-ecosystem, no install required to check
+- Not an auto-patcher for every ecosystem — `fix` is npm today; other ecosystems use the agent + manifest edits
+
+## Quick install
+
+```bash
+npx @marshell/chifu-wizard@latest
+```

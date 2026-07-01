@@ -1,100 +1,76 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
   "name": "chifu",
+  "theme": "maple",
+  "logo": {
+    "light": "/images/fish-logo.png",
+    "dark": "/images/fish-logo.png",
+    "href": "https://marshell.dev"
+  },
+  "favicon": "/images/fish-logo.png",
   "colors": {
-    "primary": "#02E2BC",
-    "light": "#02E2BC",
-    "dark": "#02E2BC"
+    "primary": "#0A0A0A",
+    "light": "#F5F5F5",
+    "dark": "#171717"
   },
   "appearance": {
-    "default": "dark",
-    "strict": true
+    "default": "dark"
   },
   "background": {
     "color": {
-      "light": "#FFFFFF",
-      "dark": "#0A0E11"
+      "dark": "#0A0A0A",
+      "light": "#FFFFFF"
     }
   },
   "fonts": {
-    "family": "Plus Jakarta Sans"
+    "family": "Inter"
   },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/chifu-light.svg",
-    "dark": "/logo/chifu-dark.svg",
-    "href": "https://marshell.dev"
+  "icons": {
+    "library": "lucide"
   },
-  "navigation": {
-    "groups": [
-      {
-        "group": "Get started",
-        "pages": [
-          "introduction",
-          "quickstart",
-          "how-it-works"
-        ]
-      },
-      {
-        "group": "Guides",
-        "pages": [
-          "cli",
-          "skill",
-          "agents",
-          "ci"
-        ]
-      },
-      {
-        "group": "Account",
-        "pages": [
-          "dashboard",
-          "plans"
-        ]
-      }
-    ]
+  "styling": {
+    "css": ["/style.css"]
   },
   "navbar": {
     "links": [
       {
-        "type": "github",
-        "href": "https://github.com/marshell-dev"
+        "label": "Dashboard",
+        "href": "https://marshell.dev/dashboard"
       },
       {
-        "label": "Discord",
-        "href": "https://discord.gg/pPsKMze28n"
+        "label": "Pricing",
+        "href": "https://marshell.dev/plans"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Open dashboard",
-      "href": "https://marshell.dev/dashboard"
+      "label": "Install",
+      "href": "https://marshell.dev"
     }
   },
   "footer": {
     "socials": {
       "github": "https://github.com/marshell-dev",
-      "x": "https://x.com/MarshellDev",
-      "discord": "https://discord.gg/pPsKMze28n",
-      "website": "https://marshell.dev"
-    },
-    "links": [
+      "discord": "https://discord.gg/pPsKMze28n"
+    }
+  },
+  "navigation": {
+    "groups": [
       {
-        "header": "Product",
-        "items": [
-          { "label": "Introduction", "href": "https://docs.marshell.dev/introduction" },
-          { "label": "Quickstart", "href": "https://docs.marshell.dev/quickstart" },
-          { "label": "CLI reference", "href": "https://docs.marshell.dev/cli" },
-          { "label": "Supported agents", "href": "https://docs.marshell.dev/agents" }
-        ]
+        "group": "Start",
+        "pages": ["index", "quickstart", "how-it-works"]
       },
       {
-        "header": "Company",
-        "items": [
-          { "label": "Website", "href": "https://marshell.dev" },
-          { "label": "Dashboard", "href": "https://marshell.dev/dashboard" },
-          { "label": "Discord", "href": "https://discord.gg/pPsKMze28n" }
-        ]
+        "group": "Use chifu",
+        "pages": ["capabilities", "cli", "ecosystems", "ci"]
+      },
+      {
+        "group": "Agents",
+        "pages": ["skill", "agents"]
+      },
+      {
+        "group": "Account",
+        "pages": ["dashboard", "plans", "troubleshooting"]
       }
     ]
   }

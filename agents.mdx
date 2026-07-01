@@ -1,78 +1,73 @@
 ---
-title: "Supported agents"
-description: "Where the chifu-dep-guard skill installs across Claude Code, Cursor, Windsurf, Codex, and more."
+title: Supported agents
+description: Where the chifu-dep-guard skill installs across Claude Code, Cursor, Windsurf, Codex, and more.
 ---
 
-The installer detects the coding agents on your machine and writes the
-`chifu-dep-guard` skill into each one, in that agent's native format. One
-command, every agent.
+The [wizard](/quickstart) detects coding agents on your machine and writes `chifu-dep-guard` in each agent's native format.
 
-## Supported agents
+<div className="docs-agent-list">
+  <div className="docs-agent-card docs-agent-card-dark"><img src="/images/agents/claude-code.png" alt="" /><span>Claude Code</span></div>
+  <div className="docs-agent-card docs-agent-card-light invert"><img src="/images/agents/cursor.png" alt="" /><span>Cursor</span></div>
+  <div className="docs-agent-card docs-agent-card-dark"><img src="/images/agents/codex.png" alt="" /><span>Codex</span></div>
+  <div className="docs-agent-card docs-agent-card-light invert"><img src="/images/agents/github-copilot.png" alt="" /><span>GitHub Copilot</span></div>
+  <div className="docs-agent-card docs-agent-card-dark"><img src="/images/agents/gemini.png" alt="" /><span>Gemini CLI</span></div>
+  <div className="docs-agent-card docs-agent-card-light invert"><img src="/images/agents/windsurf.png" alt="" /><span>Windsurf</span></div>
+  <div className="docs-agent-card docs-agent-card-dark"><img src="/images/agents/opencode.png" alt="" /><span>OpenCode</span></div>
+  <div className="docs-agent-card docs-agent-card-dark"><img src="/images/agents/cline.png" alt="" /><span>Cline</span></div>
+</div>
+
+## Default: skills.sh
+
+By default the wizard installs via [skills.sh](https://www.skills.sh) — one shot into all detected agents (Claude Code, Cursor, Codex, Copilot, Windsurf, Gemini, Cline, and more).
+
+Fallback (when skills.sh is unavailable, or you pass `--target` / set `CHIFU_NO_SKILLS_SH=1`):
 
 | Agent | Format | Location |
-|---|---|---|
+| --- | --- | --- |
 | Claude Code | Skill | `~/.claude/skills/chifu-dep-guard/SKILL.md` |
-| Cursor | Project rule | `~/.cursor/rules/chifu-dep-guard.mdc` |
-| Windsurf | Memory rule | `~/.codeium/windsurf/memories/chifu-dep-guard.md` |
+| Cursor | Rule | `~/.cursor/rules/chifu-dep-guard.mdc` |
+| Windsurf | Memory | `~/.codeium/windsurf/memories/chifu-dep-guard.md` |
 | Codex | `AGENTS.md` block | `~/.codex/AGENTS.md` |
 | OpenCode | `AGENTS.md` block | `~/.config/opencode/AGENTS.md` |
 | Gemini CLI | `GEMINI.md` block | `~/.gemini/GEMINI.md` |
 | Cline | Rule file | `~/.clinerules/chifu-dep-guard.md` |
 
-<Note>
-  Writes to `AGENTS.md` and `GEMINI.md` are idempotent. chifu inserts a
-  delimited block and replaces just that block on future updates, leaving the
-  rest of your file untouched.
-</Note>
+`AGENTS.md` / `GEMINI.md` writes are idempotent — delimited `<!-- chifu:begin -->` … `<!-- chifu:end -->` blocks.
 
 ## Install for specific agents
 
-By default the installer offers every agent it detects. To target specific
-ones non-interactively:
-
 ```bash
-# install for everything detected, no prompts
-npx @marshell/chifu-wizard@latest --yes
-
-# install for one or more named agents
+npx @marshell/chifu-wizard@latest --yes --all-agents
 npx @marshell/chifu-wizard@latest --target claude --target cursor
 ```
 
-Valid targets are `claude`, `cursor`, `windsurf`, `codex`, `opencode`,
-`gemini`, and `cline`.
+Valid targets: `claude`, `cursor`, `windsurf`, `codex`, `opencode`, `gemini`, `cline`.
 
-Other useful flags:
+| Flag | Effect |
+| --- | --- |
+| `--yes`, `-y` | No prompts |
+| `--all-agents` | Every detected agent |
+| `--target <name>` | Specific agent(s) |
+| `--skip-cli` | Skill only, no CLI |
+| `--skip-agents` | CLI only, no skill |
+| `--api-key <key>` | Save `chf_` key during setup |
 
-| Flag | What it does |
-|---|---|
-| `--yes`, `-y` | Accept defaults, no prompts. |
-| `--all-agents` | Install for every detected agent. |
-| `--target <name>` | Install for a specific agent. Repeatable. |
-| `--skip-cli` | Do not install the CLI. |
-| `--skip-agents` | Do not install the skill into any agent. |
-| `--skip-login` | Do not prompt to sign in. |
-| `--api-key <key>` | Save a `chf_` key during setup. |
-
-## Keep it up to date
-
-To pull the latest CLI and re-render the skill into every detected agent:
+## Update
 
 ```bash
 npx @marshell/chifu-wizard@latest update
 ```
 
-## Let any agent set itself up
+## Onboard any agent
 
-If your agent is not in the list, it can still onboard itself. This prints a
-self-contained prompt you can paste into any coding agent, which then installs
-and verifies chifu on its own:
+Print a self-contained prompt (no side effects):
 
 ```bash
 npx @marshell/chifu-wizard@latest --agent
 ```
 
-The command has no side effects of its own. It only prints the prompt.
+Paste into any coding agent to have it install and verify chifu itself.
 
-<Card title="The agent skill" icon="robot" href="/skill">
-  What the skill instructs your agent to do once it is installed.
-</Card>
+## What the skill does
+
+See [The agent skill](/skill).

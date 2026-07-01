@@ -15,9 +15,11 @@ editing pages.
 ## Structure
 
 - `docs.json` — site config (navigation, theme, logo, fonts).
-- `*.mdx` — content pages (`introduction`, `quickstart`, `how-it-works`, `cli`,
-  `skill`, `agents`, `ci`, `dashboard`, `plans`).
-- `logo/`, `images/`, `favicon.svg` — assets.
+- `index.mdx` — welcome hub with card navigation.
+- `*.mdx` — content pages (`quickstart`, `how-it-works`, `capabilities`, `cli`,
+  `ecosystems`, `ci`, `skill`, `agents`, `dashboard`, `plans`, `troubleshooting`).
+- `images/` — fish logo, hero gif, agent icons.
+- `style.css` — neutral theme overrides.
 
 ## Develop
 

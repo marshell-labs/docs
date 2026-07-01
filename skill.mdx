@@ -1,95 +1,47 @@
 ---
-title: "The agent skill"
-description: "chifu-dep-guard teaches your coding agent when to check dependencies and how to fix them safely."
+title: The agent skill
+description: chifu-dep-guard teaches your coding agent when to check dependencies and how to fix them safely.
 ---
 
-`chifu-dep-guard` is the agent skill that makes your coding agent
-dependency-security aware. The [CLI](/cli) detects vulnerabilities. The skill
-tells the agent when to run it and how to act on what it finds, without ever
-running untrusted package code.
+`chifu-dep-guard` is installed by the [wizard](/quickstart) into your coding agent's native format. It tells the agent **when** to run `chifu check --json` and **how** to fix findings without executing untrusted package code.
 
-The [installer](/quickstart) adds the skill to every agent it detects. See
-[supported agents](/agents) for the per-agent details.
+Full agent reference: [SKILL.md on GitHub](https://github.com/marshell-dev/chifu-skill/blob/main/SKILL.md).
 
-## When it runs
+## When the agent runs chifu
 
-The skill prompts your agent to check dependencies at exactly the moments a
-vulnerable version would otherwise slip in:
+| Trigger | Action |
+| --- | --- |
+| User says commit / push / PR | Check first; fix loop if needed |
+| Agent adds, upgrades, or pins a dep | Check after manifest edit |
+| Task touched a lockfile | Check before ending the turn |
+| User asks audit / CVE / supply chain | Check + fix loop |
 
-- Whenever it adds, upgrades, pins, or changes a dependency (editing
-  `package.json` and friends).
-- Right before it runs `git commit`.
-- Before it opens a pull request.
-- Before it finishes any task that touched dependencies.
-- Whenever you ask it to audit, check, or secure your dependencies.
+**Never commit, push, or open a PR until `vulnerablePackages` is 0** (or only unfixable entries remain and the user was told).
 
-## What it does
+## Fix loop (summary)
 
-<Steps>
-  <Step title="Check">
-    The agent runs `chifu check --json` in the project root (you must be signed
-    in — run `chifu login` first, or set `CHIFU_API_KEY`). If `chifu` is not on
-    the PATH, it falls back to `bunx @marshell/chifu@latest check --json`.
-  </Step>
-  <Step title="Read the findings">
-    It reads `packages` (the rolled-up list of vulnerable packages, each with a
-    `recommendedVersion`) and `findings` (the per-CVE detail, with advisory
-    links).
-  </Step>
-  <Step title="Fix by editing files">
-    Worst severity first, it bumps versions in `package.json` and adds
-    `overrides` or `resolutions` for vulnerable transitive packages, pinning
-    each to its `recommendedVersion`.
-  </Step>
-  <Step title="Re-resolve and re-check">
-    It re-resolves the lockfile without running scripts, then runs
-    `chifu check --json` again. It loops until no vulnerable packages remain, or
-    only packages with no available fix are left.
-  </Step>
-  <Step title="Report">
-    It tells you what it upgraded and reminds you to run your own install,
-    build, and tests.
-  </Step>
-</Steps>
+1. `chifu check --json` from the project root with the lockfile
+2. Read `packages[]` — bump to `recommendedVersion`, critical-first
+3. Re-resolve npm lockfile only: `npm install --package-lock-only --ignore-scripts`
+4. Re-check until clean
+5. User runs real install + tests before commit
 
 ## The safety rule
 
-This is the heart of the skill.
+**No full install during the fix loop.** No `npm install`, `npm ci`, `yarn`, `pnpm install`, or `bun install`. Lifecycle scripts on compromised packages are the attack surface chifu avoids.
 
-<Warning>
-  The agent never runs an install while checking or fixing. No `npm install`,
-  `npm ci`, `npm audit fix`, `yarn`, `pnpm install`, or `bun install`.
-</Warning>
-
-Installing executes the lifecycle scripts of every package in the tree, which is
-the supply-chain risk chifu is built to prevent. The only install-adjacent
-command the skill allows re-resolves the lockfile while downloading and
-executing nothing:
+## Commands the agent uses
 
 ```bash
-npm install --package-lock-only --ignore-scripts
+chifu check --json
+bunx @marshell/chifu@latest check --json   # fallback
 ```
 
-You run the real install yourself, after the fix loop is done and you have
-reviewed the changes.
-
-## Install it manually
-
-If you skipped the wizard, the skill is a single instruction file. For Claude
-Code, place it at:
-
-```text
-~/.claude/skills/chifu-dep-guard/SKILL.md
-```
-
-The folder name must match the skill name, `chifu-dep-guard`. Other agents use
-their own formats and locations. The simplest path is to let the installer do
-it:
+## Install / update the skill
 
 ```bash
 npx @marshell/chifu-wizard@latest
+npx @marshell/chifu-wizard@latest update
 ```
 
-<Card title="Supported agents" icon="plug" href="/agents">
-  Where the skill lands for Claude Code, Cursor, Windsurf, Codex, and more.
-</Card>
+Where it lands per agent: [Supported agents](/agents).

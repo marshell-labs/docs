@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "chifu",
+  "name": "Marshell Labs",
   "theme": "maple",
   "logo": {
-    "light": "/images/fish-logo.png",
-    "dark": "/images/fish-logo.png",
-    "href": "https://marshell.dev"
+    "light": "/images/logo.png",
+    "dark": "/images/logo.png",
+    "href": "https://www.marshell.dev"
   },
-  "favicon": "/images/fish-logo.png",
+  "favicon": "/images/favicon.png",
   "colors": {
     "primary": "#0A0A0A",
     "light": "#F5F5F5",
@@ -34,24 +34,25 @@
   "navbar": {
     "links": [
       {
-        "label": "Dashboard",
-        "href": "https://marshell.dev/dashboard"
+        "label": "Console",
+        "href": "https://console.marshell.dev/login"
       },
       {
-        "label": "Pricing",
-        "href": "https://marshell.dev/plans"
+        "label": "Status",
+        "href": "https://status.marshell.dev/"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Install",
-      "href": "https://marshell.dev"
+      "label": "Get started",
+      "href": "https://console.marshell.dev/register"
     }
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/marshell-dev",
-      "discord": "https://discord.gg/pPsKMze28n"
+      "github": "https://github.com/marshell-labs",
+      "discord": "https://discord.gg/mAswCyTxKr",
+      "x": "https://x.com/arseniitrutnev"
     }
   },
   "navigation": {
@@ -61,16 +62,16 @@
         "pages": ["index", "quickstart", "how-it-works"]
       },
       {
-        "group": "Use chifu",
-        "pages": ["capabilities", "cli", "ecosystems", "ci"]
+        "group": "Platform",
+        "pages": ["protocol", "network", "console"]
       },
       {
-        "group": "Agents",
-        "pages": ["skill", "agents"]
+        "group": "Build",
+        "pages": ["cli", "skill", "subnets"]
       },
       {
-        "group": "Account",
-        "pages": ["dashboard", "plans", "troubleshooting"]
+        "group": "Reference",
+        "pages": ["agents", "plans", "troubleshooting"]
       }
     ]
   }

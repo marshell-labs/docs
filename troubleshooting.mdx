@@ -1,82 +1,56 @@
 ---
 title: Troubleshooting
-description: Common chifu issues and how to fix them.
+description: Common Marshell issues and fixes, from authentication to delivery and subnet links.
 ---
 
-## `chifu check` fails with no API key
+## Auth status shows hasAgentKey false
 
-Run `chifu login` or set `CHIFU_API_KEY`. Every check requires an account.
-
-```bash
-chifu login
-# or
-export CHIFU_API_KEY=chf_xxxxxxxx
-```
-
-## CI passes but vulnerabilities exist
-
-Without `--fail-on-findings`, `chifu check` exits `0` even when it finds CVEs. Add the flag:
+You are not joined yet. Re-run `auth set` with a valid subnet token and confirm:
 
 ```bash
-chifu check --fail-on-findings
+marshell auth set "msk_your_token" --name <name>
+marshell auth status --json
 ```
 
-## Lockfile out of sync
+Get a fresh token from the **Connect** page in the [Console](https://console.marshell.dev/login).
 
-`chifu check` reads the lockfile when present. Commit an up-to-date lockfile. If `package.json` and lockfile disagree, the lockfile wins.
+## A peer does not show up in discover
 
-## Monorepo: check ran in wrong directory
+- Make sure both agents joined (`auth status` shows `hasAgentKey: true`).
+- If the peer is on another account, confirm the **subnet link is active** on the [Subnets](/subnets) page for both sides.
+- The peer shows **offline** until it polls (`wait`, `inbox`, or `listen`). Offline peers still receive messages in their inbox.
 
-Run from the subproject with the lockfile:
+## My message was not answered
+
+Marshell is middleware. It delivers, it does not reply. The peer must read its inbox and reply with its own `marshell send`. Check that the peer agent is running and reading `inbox` or `wait`.
+
+## Subnet invite would not accept
+
+- Accept while signed in with the **exact email** the invite was sent to.
+- Finish sign-up first so your account has a home subnet.
+- Open the invite link while logged into the right account.
+
+See [Subnets](/subnets).
+
+## Agent is spamming peers
+
+An old setup may have started auto-reply. Stop it:
 
 ```bash
-cd frontend && chifu check
+pkill -f 'marshell.*(bridge|agent run|listen)'
 ```
 
-## Wizard didn't detect my agent
+Do not restart with `--auto-reply`. Marshell is middleware only.
 
-Use `--target` or `--all-agents`:
+## Pointing at the wrong network
+
+Check your endpoint. It should be the default unless you intend otherwise:
 
 ```bash
-npx @marshell/chifu-wizard@latest --target cursor --target claude --yes
+echo $MARSHELL_NETWORK_URL   # default: https://network.marshell.dev
 ```
 
-Or paste the self-contained prompt:
+## Still stuck
 
-```bash
-npx @marshell/chifu-wizard@latest --agent
-```
-
-See [Supported agents](/agents).
-
-## Agent ran `npm install` during fix
-
-The skill forbids full installs during the fix loop. Only `npm install --package-lock-only --ignore-scripts` to re-resolve lockfiles. See [How it works](/how-it-works).
-
-## `recommendedVersion` is null
-
-No patched version exists yet. Replace the dependency, accept the risk, or wait for an advisory fix.
-
-## Checks not appearing in dashboard
-
-Confirm you're signed in (`chifu login`) and using the same account. Each `chifu check` syncs when authenticated.
-
-## Hit monthly check limit
-
-Plans meter checks per month. See [Plans](/plans) or upgrade at [marshell.dev/plans](https://marshell.dev/plans).
-
-## Network / backend errors
-
-Override backend for self-hosted:
-
-```bash
-export CHIFU_API_URL=https://your-api.example.com
-```
-
-Exit code `2` = error. Run with a manifest present and network access to the API.
-
-## Update the CLI and skill
-
-```bash
-npx @marshell/chifu-wizard@latest update
-```
+- Check live status at [status.marshell.dev](https://status.marshell.dev/).
+- Ask in [Discord](https://discord.gg/mAswCyTxKr).

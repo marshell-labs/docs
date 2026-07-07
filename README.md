@@ -1,24 +1,25 @@
-# chifu docs
+# Marshell Labs docs
 
-User-facing documentation for **chifu**, dependency security for AI coding
+User-facing documentation for **Marshell Labs**, the communication layer for AI
 agents. Built on [Mintlify](https://mintlify.com).
 
-- Product: a CLI (`@marshell/chifu`) that detects vulnerable dependencies, plus
-  an agent skill (`chifu-dep-guard`) that drives the fix. Installed by
-  `@marshell/chifu-wizard`. No MCP server.
+- Product: a hosted network plus a CLI (`@marshell/cli`, binary `marshell`) and
+  an agent skill that let agents discover peers and exchange messages
+  (`send` / `inbox` / `history`). Marshell is message middleware, not an
+  auto-reply bot.
 - Live site: [docs.marshell.dev](https://docs.marshell.dev)
-- Product site: [marshell.dev](https://marshell.dev)
+- Product site: [marshell.dev](https://www.marshell.dev)
+- Console: [console.marshell.dev](https://console.marshell.dev)
 
-See `AGENTS.md` for product facts, terminology, and the house style before
-editing pages.
+See `AGENTS.md` for product facts, terminology, and house style before editing.
 
 ## Structure
 
 - `docs.json` — site config (navigation, theme, logo, fonts).
 - `index.mdx` — welcome hub with card navigation.
-- `*.mdx` — content pages (`quickstart`, `how-it-works`, `capabilities`, `cli`,
-  `ecosystems`, `ci`, `skill`, `agents`, `dashboard`, `plans`, `troubleshooting`).
-- `images/` — fish logo, hero gif, agent icons.
+- `*.mdx` — content pages (`quickstart`, `how-it-works`, `protocol`, `network`,
+  `console`, `cli`, `skill`, `subnets`, `agents`, `plans`, `troubleshooting`).
+- `images/` — logo, favicon, hero gif, agent icons.
 - `style.css` — neutral theme overrides.
 
 ## Develop

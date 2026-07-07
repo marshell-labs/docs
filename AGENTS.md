@@ -9,36 +9,35 @@
 
 ## About the product
 
-- **chifu** is dependency security for AI coding agents. It is two pieces: a
-  CLI (`@marshell/chifu`, binary `chifu`) that detects known vulnerabilities in
-  a project's dependencies, and an agent skill (`chifu-dep-guard`) that tells a
-  coding agent when to check and how to fix. A wizard
-  (`@marshell/chifu-wizard`) installs both. **There is no MCP server.**
-- It is the product in the **Marshell** family. Company = Marshell,
-  product = chifu, site = `marshell.dev`, dashboard = `marshell.dev/dashboard`,
-  docs = `docs.marshell.dev`.
-- The core loop: the CLI **detects** (matches `package.json` + lockfile against
-  145,000+ CVEs from NVD + OSV), the agent **fixes** (edits `package.json` and
-  `overrides`/`resolutions`, re-checks until clean). The CLI never installs or
-  patches anything.
-- The safety rule (load-bearing, repeat it): while checking or fixing, never
-  run an install (`npm/yarn/pnpm/bun install`, `npm ci`, `npm audit fix`).
-  Installs run untrusted lifecycle scripts. The only allowed command is
-  `npm install --package-lock-only --ignore-scripts`.
-- npm is the only supported ecosystem today. Do not promise others as shipped.
+- **Marshell Labs** builds the communication layer for AI agents. Agents join a
+  hosted network and exchange messages so they can share context, delegate
+  tasks, and collaborate.
+- It is three surfaces: a hosted **network** (`network.marshell.dev`), a **CLI**
+  (`@marshell/cli`, binary `marshell`), and an **agent skill** pasted from
+  `https://www.marshell.dev/skill`. The **Console** (`console.marshell.dev`) is
+  the dashboard.
+- Marshell is **message middleware**: `send`, `inbox`, `history`. Agents think
+  and reply themselves. There is **no auto-reply daemon**.
+- Company = Marshell Labs, site = `marshell.dev`, console = `console.marshell.dev`,
+  docs = `docs.marshell.dev`, network = `network.marshell.dev`.
+
+## Core concepts
+
+- **Agent**: a named participant in a subnet (`cursor`, `gateway`).
+- **Subnet**: your private space; every account gets a home subnet. Two accounts
+  can **link** subnets so agents discover and message across them.
+- **Network**: routes messages and answers discovery.
+- **Console**: agents, connect (join token), approvals, subnets, messenger,
+  billing, settings.
 
 ## Terminology
 
-- Product name **chifu** is lowercase, even at the start of a sentence.
-- The CLI command is `chifu check` (and `chifu login`). The skill is
-  `chifu-dep-guard`. The installer is the "wizard".
-- "dependency" / "package", "vulnerability" / "CVE", "finding", "synced check".
-- Severities: Critical, High, Medium, Low (and Info).
-- API keys start with `chf_`.
+- Product/company name is **Marshell Labs** (or **Marshell**). Capitalized.
+- CLI binary is `marshell`. Skill installed via the setup link.
+- Subnet join tokens start with `msk_`.
+- Billing meters **messages** (one credit per delivered `send`).
 - Supported agents: Claude Code, Cursor, Windsurf, Codex, OpenCode, Gemini CLI,
-  Cline.
-- Plans meter **checks** (chifu needs an account; every `chifu check` counts).
-  Free = $0 / 100, Pro = $7.99 / 400, Max = $23.99 / 1,600 checks per month.
+  Cline, GitHub Copilot.
 
 ## Style preferences
 
@@ -54,18 +53,15 @@
 
 - Document only shipped, working features. Mark anything not yet live clearly.
 - Don't document backend internals or DB schema. The user-facing surface is the
-  CLI, the skill, the wizard, the dashboard, and the small REST API the CLI
-  calls (`POST /api/v1/deps/check`, the `chifu login` device-pairing flow).
-- Keep facts in sync with the CLI source: commands and flags (`chifu check`
-  with `--json`, `--verbose`, `--fail-on-findings`, `--api-url`), exit codes
-  (0 ok, 1 only with `--fail-on-findings`, 2 error), config location, and the
-  `CHIFU_API_KEY` / `CHIFU_API_URL` / `CHIFU_WEB_URL` env vars.
+  CLI, the agent skill, the network, and the Console.
+- Keep CLI facts in sync with the source: commands (`auth`, `agent join`,
+  `discover`, `send`, `ask`, `wait`, `inbox`, `history`, `status`, `wallet`,
+  `listen`, `pending`, `relay cron`) and env vars (`MARSHELL_NETWORK_URL`
+  default `https://network.marshell.dev`, `MARSHELL_AGENT_NAME`,
+  `MARSHELL_CONFIG`).
 
 ## Assets
 
-- Logo: `logo/chifu-dark.svg` (cream glyph, dark navbar) and
-  `logo/chifu-light.svg` (warm-black glyph, light navbar). Favicon:
-  `favicon.svg`. Hero animation: `images/hero.gif` (the koi motif from the
-  landing page).
-- Theme matches the app: dark by default, teal accent `#02E2BC`, background
-  `#0A0E11`, Plus Jakarta Sans.
+- Logo and favicon: `images/logo.png` and `images/favicon.png`. Hero animation:
+  `images/hero.gif`. Agent icons: `images/agents/*.png`.
+- Theme: dark by default, neutral palette, Inter. Styles in `style.css`.

@@ -1,32 +1,32 @@
 ---
 title: Plans
-description: chifu pricing. Every check needs an account; plans meter checks per month.
+description: How Marshell pricing works. Start with free credits and top up with prepaid messages.
 ---
 
-The CLI is open source. Using it requires an account — every `chifu check` authenticates against your dashboard.
+Marshell meters **messages**. Every `marshell send` uses one credit. Discovery, inbox reads, and history are free.
 
-Plans meter **checks per month**. One run = one check, whether by hand, agent, or CI.
+## Free credits
 
-## Pricing
+Every new account starts with free message credits, enough to connect a few agents and try real conversations. No card required to start.
 
-| Plan | Price | Checks / month |
-| --- | --- | --- |
-| Free | $0 | 100 |
-| Pro | $7.99 / mo | 400 |
-| Max | $23.99 / mo | 1,600 |
+## Prepaid messages
 
-Every account starts on Free. Upgrade anytime from the [dashboard](https://marshell.dev/dashboard/billing) or [marshell.dev/plans](https://marshell.dev/plans).
+When you need more, top up your wallet with prepaid credits in the [Console](https://console.marshell.dev/login) under **Billing**. Credits do not expire and are shared across all agents in your subnet.
 
-## What counts as a check
+## What counts
 
-Each `chifu check` — local, agent-driven, or CI — counts as one check against your monthly limit.
+| Action | Metered |
+| --- | --- |
+| `send` (delivered message) | 1 credit |
+| `discover` | Free |
+| `inbox`, `wait`, `listen` | Free |
+| `history`, `status` | Free |
 
-100/month on Free covers everyday agent use. Upgrade when you check across many repos or run CI on every push.
+<Note>
+  Failed deliveries are refunded, and safe retries are de-duplicated, so a
+  timeout followed by a retry will not double-charge.
+</Note>
 
-## Sign in to start
+## Manage billing
 
-```bash
-chifu login
-```
-
-Or run the [wizard](/quickstart) — it signs you in during setup.
+Your balance, usage, and top-ups all live under **Billing** in the Console. See [Console](/console).
